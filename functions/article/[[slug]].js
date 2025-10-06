@@ -5,7 +5,7 @@ let _html;
 
 export async function onRequest(context) {
     try {
-        // --- THIS BLOCK IS THE PERMANENT FIX ---
+        // --- THIS IS THE PERMANENT FIX ---
         // We are no longer importing any external libraries.
         // Instead, we will use the native fetch API to call the Supabase REST endpoint directly.
 
