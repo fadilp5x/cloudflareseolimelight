@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Limelight Online</title>
+    <meta name="description" content="The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Limelight Online">
+    <meta property="og:description" content="The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.">
+    <meta property="og:image" content="https://i.ibb.co/NdsYM9dx/web-logo-123.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #fff; --secondary-color: #f8f9fa; --accent-color: #8B4513; --text-color: #333; --light-gray: #e9ecef; --border-color: #dee2e6; --tag-bg: #f8f0f5; --tag-text: #9c27b0; --btn-bg: #9c27b0; --btn-hover: #7b1fa2; --card-shadow: 0 4px 12px rgba(0,0,0,0.08); --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12); --transition-speed: 0.3s; --footer-bg: #1a1a1a; --footer-text: #ccc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--accent-color); }
+        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(to right, transparent, var(--accent-color), transparent); background-size: 200% 100%; animation: loading 1.5s infinite linear; z-index: 9999; display: none; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .site-title img { max-height: 65px; width: auto; }
+        .nav-menu { display: flex; list-style: none; align-items: center; }
+        .nav-item { margin: 0; position: relative; padding: 0 15px; border-left: 1px solid var(--border-color); }
+        .nav-item:first-child { border-left: none; }
+        .nav-link { display: flex; align-items: center; font-weight: 500; padding: 10px 0; }
+        .nav-link i { margin-left: 4px; font-size: 12px; }
+        .nav-search .search-container { position: relative; display: flex; align-items: center; height: 40px; }
+        .nav-search .search-icon-btn { cursor: pointer; font-size: 16px; padding: 10px; border-radius: 50%; background-color: transparent; }
+        .nav-search .search-container input { border: 1px solid var(--border-color); outline: none; padding: 10px 15px; border-radius: 20px; font-size: 14px; width: 0; opacity: 0; visibility: hidden; transform: translateX(10px); transition: all var(--transition-speed) ease; }
+        .nav-search .search-container.active input { width: 200px; opacity: 1; visibility: visible; transform: translateX(0); }
+        #searchResultsContainer { display: none; position: absolute; top: calc(100% + 10px); right: 0; width: 350px; background: white; box-shadow: var(--card-shadow); border-radius: 6px; z-index: 1000; max-height: 400px; overflow-y: auto; }
+        .search-result-item { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .search-result-thumbnail { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px; }
+        .mobile-nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; z-index: 1001; }
+        .dropdown { position: absolute; top: 100%; left: 0; background: var(--accent-color); min-width: 220px; box-shadow: var(--card-shadow); border-radius: 6px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all var(--transition-speed) ease; z-index: 100; }
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 12px 20px; color: white; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .featured-carousel { position: relative; margin-bottom: 40px; cursor: grab; }
+        .carousel-container { position: relative; height: 500px; background-color: var(--light-gray); overflow: hidden; }
+        .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease; }
+        .carousel-slide.active { opacity: 1; z-index: 1; }
+        .carousel-image { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 40px 30px 30px; color: white; }
+        .category-tag { display: inline-block; background-color: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; margin-bottom: 10px; }
+        .carousel-title { font-size: 28px; font-family: 'Playfair Display', serif; }
+        .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border-radius: 50%; }
+        .carousel-prev { left: 20px; }
+        .carousel-next { right: 20px; }
+        .carousel-indicators { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
+        .indicator { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
+        .indicator.active { background-color: white; }
+        .carousel-progress-bar { position: absolute; bottom: 0; left: 0; height: 4px; width: 100%; background-color: rgba(135, 206, 235, 0.2); z-index: 11; }
+        .carousel-progress-bar-inner { height: 100%; width: 0; background-color: #87CEEB; }
+        .carousel-progress-bar-inner.is-animating { transition: width 5s linear; }
+        .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
+        .article-card { background-color: white; border: 1px solid var(--border-color); transition: all var(--transition-speed) ease; animation: fadeIn 0.5s ease forwards; opacity: 0; display: flex; flex-direction: column; }
+        .article-card:hover { box-shadow: var(--card-hover-shadow); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .card-image { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 18px; font-weight: 500; margin: 12px 0 10px; flex-grow: 1; }
+        .load-more-container { text-align: center; margin: 40px 0; }
+        .load-more-btn { display: inline-block; padding: 12px 30px; background-color: var(--btn-bg); color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        .page-title { text-align: center; margin-bottom: 2rem; font-family: 'Playfair Display', serif; font-size: 2rem; }
+        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding-bottom: 40px; border-bottom: 1px solid #444; }
+        .footer-about .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: white; margin-bottom: 15px; }
+        .footer-links h4 { font-size: 18px; color: white; margin-bottom: 20px; }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 12px; }
+        #footerSubscribeForm { display: flex; }
+        #footerSubscribeForm input { flex-grow: 1; border: none; padding: 12px; background-color: #333; color: white; }
+        #footerSubscribeForm button { border: none; background-color: var(--btn-bg); color: white; padding: 0 20px; cursor: pointer; }
+        .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
+        @media (max-width: 992px) { .articles-grid, .footer-grid { grid-template-columns: 1fr 1fr; } .mobile-nav-toggle { display: block; } .nav-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } .nav-container.active { display: block; } .nav-menu { display: none; flex-direction: column; align-items: flex-start; padding: 10px 0; } .nav-container.active .nav-menu { display: flex; } .nav-item { margin: 0; width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); } .nav-link { padding: 15px 20px; width: 100%; } .dropdown { position: static; box-shadow: none; background: #f9f9f9; padding-left: 20px; } .dropdown-item { color: var(--text-color); } }
+        @media (max-width: 768px) { .site-title img { max-height: 50px; } .carousel-container { height: 350px; } .carousel-title { font-size: 22px; } .articles-grid, .footer-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="loading-bar" id="loadingBar"></div>
+    
+    <header class="header">
+        <div class="container header-content">
+            <div class="site-title"><a href="/index.html"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo"></a></div>
+            <button class="mobile-nav-toggle" aria-label="Open navigation menu"><i class="fas fa-bars"></i></button>
+            <div class="nav-container" id="navContainer"><ul class="nav-menu" id="categoryNav"></ul></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="featured-carousel" id="featuredCarousel">
+            <div class="carousel-container" id="carouselContainer"></div>
+            <button class="carousel-nav carousel-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-nav carousel-next"><i class="fas fa-chevron-right"></i></button>
+            <div class="carousel-indicators" id="carouselIndicators"></div>
+            <div class="carousel-progress-bar"><div id="progressBarInner" class="carousel-progress-bar-inner"></div></div>
+        </section>
+
+        <div id="pageTitleContainer"></div>
+
+        <section class="articles-container">
+            <div class="articles-grid" id="articlesGrid"></div>
+            <div class="load-more-container" id="loadMoreContainer" style="display: none;"><button class="load-more-btn" id="loadMoreBtn">Load More Articles</button></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-about"><h3 class="footer-logo">THE LIMELIGHT</h3><p>Insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p></div>
+            <div class="footer-links"><h4>Categories</h4><ul id="footerCategoryNav"></ul></div>
+            <div class="footer-links"><h4>Help & Support</h4><ul id="footerSupportNav"></ul></div>
+            <div class="footer-subscribe"><h4>Email Newsletter</h4><p>Subscribe for notifications on exclusive posts.</p><form id="footerSubscribeForm"><input type="email" placeholder="Your Email" required><button type="submit">SUBSCRIBE</button></form></div>
+        </div>
+        <div class="footer-bottom"><p>Copyright © 2025. The Limelight Online. All rights reserved.</p></div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://whklfmxjknhucguzvpob.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const POSTS_PER_PAGE = 12;
+        let currentPage = 1, totalPosts = 0, currentSlide = 0, featuredPosts = [], isCarouselTransitioning = false, carouselInterval;
+        const articlesGrid = document.getElementById('articlesGrid'), loadingBar = document.getElementById('loadingBar'), loadMoreContainer = document.getElementById('loadMoreContainer');
+        const featuredCarousel = document.getElementById('featuredCarousel'), progressBarInner = document.getElementById('progressBarInner');
+
+        function showLoading() { loadingBar.style.display = 'block'; }
+        function hideLoading() { loadingBar.style.display = 'none'; }
+        const getUrlParams = () => new URLSearchParams(window.location.search);
+
+        async function fetchCategoriesAndLinks() {
+            const { data: categories, error } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
+            if (error) { console.error('Error fetching categories:', error); return; }
+            const navItems = await Promise.all(categories.map(async c => ({ c, subs: (await supabaseClient.from('categories').select('*').eq('parent_id', c.id).order('name')).data || [] })));
+            
+            const nav = document.getElementById('categoryNav'), footerNav = document.getElementById('footerCategoryNav');
+            let navHtml = `<li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>`, footerNavHtml = `<li><a href="/index.html">Home</a></li>`;
+            navItems.forEach(item => {
+                navHtml += `<li class="nav-item"><a href="/index.html?categories=${item.c.slug}" class="nav-link">${item.c.name}${item.subs.length > 0 ? ' <i class="fas fa-chevron-down"></i>' : ''}</a>${item.subs.length > 0 ? `<div class="dropdown">${item.subs.map(s => `<a href="/index.html?categories=${s.slug}" class="dropdown-item">${s.name}</a>`).join('')}</div>` : ''}</li>`;
+                footerNavHtml += `<li><a href="/index.html?categories=${item.c.slug}">${item.c.name}</a></li>`;
+            });
+            navHtml += `<li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li><li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li><li class="nav-item nav-search"><div class="search-container" id="searchContainer"><i class="fas fa-search search-icon-btn"></i><input type="text" id="searchInput" placeholder="Search..."></div><div id="searchResultsContainer"></div></li>`;
+            nav.innerHTML = navHtml;
+            footerNav.innerHTML = footerNavHtml;
+            setupSearch();
+            
+            const { data: links } = await supabaseClient.from('footer_links').select('title, url').order('title');
+            if(links) document.getElementById('footerSupportNav').innerHTML = links.map(l => `<li><a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.title}</a></li>`).join('');
+        }
+
+        async function fetchFeaturedPosts() {
+            const { data, error } = await supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name)`).eq('is_featured', true).order('created_at', { ascending: false }).limit(5);
+            if (error) { console.error('Error fetching featured posts:', error); return; }
+            featuredPosts = data;
+            renderCarousel();
+            if (featuredPosts.length > 1) startCarouselInterval();
+        }
+
+        async function fetchPosts(loadMore = false) {
+            if (!loadMore) { currentPage = 1; articlesGrid.innerHTML = ''; }
+            showLoading();
+            const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
+            let query = supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name)`, { count: 'exact' });
+            if (categorySlug) {
+                const { data: categoryData } = await supabaseClient.from('categories').select('id').eq('slug', categorySlug).single();
+                if (categoryData) query = query.eq('category_id', categoryData.id);
+            }
+            if (authorId) query = query.eq('author_id', authorId);
+            
+            const { data, error, count } = await query.order('order_index', { ascending: true, nullsFirst: false }).range((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE - 1);
+            if (error) { console.error('Error fetching posts:', error); hideLoading(); return; }
+            
+            totalPosts = count;
+            renderPosts(data, loadMore);
+            updateLoadMoreButton();
+            hideLoading();
+        }
+
+        function renderCarousel() {
+            if (!featuredPosts || featuredPosts.length === 0) return;
+            document.getElementById('carouselContainer').innerHTML = featuredPosts.map(post => `<div class="carousel-slide"><a href="/article/${post.slug}"><img src="${post.image_url}" alt="${post.title}" class="carousel-image"></a><div class="carousel-overlay"><a href="/index.html?categories=${post.categories.slug}" class="category-tag">${post.categories.name}</a><h2 class="carousel-title"><a href="/article/${post.slug}" style="color: white;">${post.title}</a></h2><p class="carousel-date">${new Date(post.created_at).toLocaleDateString()}</p></div></div>`).join('');
+            if (featuredPosts.length > 1) {
+                document.getElementById('carouselIndicators').innerHTML = featuredPosts.map((_, i) => `<div class="indicator" data-slide-to="${i}"></div>`).join('');
+                document.querySelector('.carousel-slide').classList.add('active');
+                document.querySelector('.indicator').classList.add('active');
+            } else { document.querySelector('.carousel-slide').classList.add('active'); }
+        }
+
+        function renderPosts(posts, append) {
+            if (!append) articlesGrid.innerHTML = '';
+            posts.forEach((post, i) => {
+                const card = document.createElement('a');
+                card.href = `/article/${post.slug}`; // <-- UPDATED LINK
+                card.className = 'article-card';
+                card.style.animationDelay = `${i * 0.1}s`;
+                card.innerHTML = `<img src="${post.image_url || 'https://via.placeholder.com/400x200'}" alt="${post.title}" class="card-image" loading="lazy"><div class="card-content"><span class="category-tag">${post.categories.name}</span><h3 class="card-title">${post.title}</h3><p class="card-author"><i class="fas fa-user"></i> ${post.authors.full_name}</p></div>`;
+                articlesGrid.appendChild(card);
+            });
+        }
+        
+        function updateLoadMoreButton() {
+            loadMoreContainer.style.display = (currentPage * POSTS_PER_PAGE < totalPosts) ? 'block' : 'none';
+        }
+
+        async function initPage() {
+            showLoading();
+            setupMobileNav();
+            const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
+            document.getElementById('pageTitleContainer').innerHTML = '';
+            featuredCarousel.style.display = 'block';
+
+            await fetchCategoriesAndLinks();
+
+            if (categorySlug || authorId) {
+                featuredCarousel.style.display = 'none';
+                let title = '';
+                if(categorySlug) {
+                    const {data} = await supabaseClient.from('categories').select('name').eq('slug', categorySlug).single();
+                    title = data?.name || 'Category';
+                } else {
+                    const {data} = await supabaseClient.from('authors').select('full_name').eq('id', authorId).single();
+                    title = `Posts by ${data?.full_name || 'Author'}`;
+                }
+                document.getElementById('pageTitleContainer').innerHTML = `<h2 class="page-title">${title}</h2>`;
+            } else {
+                await fetchFeaturedPosts();
+            }
+            await fetchPosts();
+            hideLoading();
+        }
+
+        function showSlide(nextIndex, isManual = false) {
+            if (isCarouselTransitioning || featuredPosts.length <= 1) return;
+            isCarouselTransitioning = true;
+            const slides = document.querySelectorAll('.carousel-slide'), indicators = document.querySelectorAll('.indicator');
+            if (nextIndex >= slides.length) nextIndex = 0;
+            if (nextIndex < 0) nextIndex = slides.length - 1;
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide]?.classList.remove('active');
+            slides[nextIndex].classList.add('active');
+            indicators[nextIndex]?.classList.add('active');
+            currentSlide = nextIndex;
+            setTimeout(() => { isCarouselTransitioning = false; }, 200);
+            if (isManual) startCarouselInterval();
+        }
+
+        function restartProgressBar() {
+            progressBarInner.classList.remove('is-animating');
+            void progressBarInner.offsetWidth;
+            progressBarInner.classList.add('is-animating');
+            progressBarInner.style.width = '100%';
+        }
+        function startCarouselInterval() {
+            stopCarouselInterval();
+            if (featuredPosts.length > 1) {
+                progressBarInner.style.width = '0%';
+                setTimeout(() => restartProgressBar(), 50);
+                carouselInterval = setInterval(() => { showSlide(currentSlide + 1); restartProgressBar(); }, 5000);
+            }
+        }
+        function stopCarouselInterval() { clearInterval(carouselInterval); }
+
+        let searchTimeout;
+        function setupSearch() {
+            const searchContainer = document.getElementById('searchContainer'), searchIcon = searchContainer.querySelector('.search-icon-btn'), searchInput = searchContainer.querySelector('#searchInput'), resultsContainer = document.getElementById('searchResultsContainer');
+            searchIcon.addEventListener('click', (e) => { e.stopPropagation(); searchContainer.classList.toggle('active'); if (searchContainer.classList.contains('active')) searchInput.focus(); });
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                const term = searchInput.value;
+                if (term.length < 2) { resultsContainer.style.display = 'none'; return; }
+                resultsContainer.style.display = 'block';
+                resultsContainer.innerHTML = '<p style="text-align: center; padding: 20px;">Searching...</p>';
+                searchTimeout = setTimeout(async () => {
+                    const { data } = await supabaseClient.from('posts').select('title, slug, image_url').ilike('title', `%${term}%`).limit(5);
+                    if (data && data.length > 0) { resultsContainer.innerHTML = data.map(p => `<a href="/article/${p.slug}" class="search-result-item"><img src="${p.image_url || 'https://via.placeholder.com/60'}" class="search-result-thumbnail"><div style="font-weight: 500;">${p.title}</div></a>`).join(''); } 
+                    else { resultsContainer.innerHTML = '<p style="padding: 20px;">No results found.</p>'; }
+                }, 300);
+            });
+            document.addEventListener('click', (e) => { if (!searchContainer.contains(e.target)) { searchContainer.classList.remove('active'); resultsContainer.style.display = 'none'; } });
+        }
+        
+        function setupMobileNav() { document.querySelector('.mobile-nav-toggle').addEventListener('click', () => document.getElementById('navContainer').classList.toggle('active')); }
+
+        document.addEventListener('DOMContentLoaded', initPage);
+        featuredCarousel.addEventListener('click', (e) => {
+            if (e.target.closest('.carousel-prev')) showSlide(currentSlide - 1, true);
+            if (e.target.closest('.carousel-next')) showSlide(currentSlide + 1, true);
+            if (e.target.matches('.indicator')) showSlide(parseInt(e.target.dataset.slideTo), true);
+        });
+        loadMoreBtn.addEventListener('click', () => { currentPage++; fetchPosts(true); });
+    </script>
+</body>
+</html>
