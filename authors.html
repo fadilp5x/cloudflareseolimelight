@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors | The Limelight Magazine</title>
+    <meta name="description" content="Meet the talented authors and writers behind The Limelight magazine. Explore their profiles and read their latest articles.">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #fff; --secondary-color: #f8f9fa; --accent-color: #8B4513; --text-color: #333; --light-gray: #e9ecef; --border-color: #dee2e6; --tag-bg: #f8f0f5; --tag-text: #9c27b0; --btn-bg: #9c27b0; --btn-hover: #7b1fa2; --card-shadow: 0 4px 12px rgba(0,0,0,0.08); --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12); --transition-speed: 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { color: var(--text-color); text-decoration: none; }
+        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(to right, transparent, var(--accent-color), transparent); background-size: 200% 100%; animation: loading 1.5s infinite linear; z-index: 9999; display: none; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .header { padding: 20px 0; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .site-title { font-family: 'Playfair Display', serif; font-size: 48px; color: var(--accent-color); margin-bottom: 20px; }
+        .nav-menu { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; }
+        .nav-item { margin: 0 15px; position: relative; }
+        .page-header { text-align: center; margin: 40px 0; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--accent-color); margin-bottom: 15px; }
+        .page-subtitle { font-size: 18px; color: #666; max-width: 700px; margin: 0 auto; }
+        .authors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .author-card { background-color: white; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); transition: all var(--transition-speed) ease; display: flex; flex-direction: column; }
+        .author-card:hover { transform: translateY(-5px); box-shadow: var(--card-hover-shadow); }
+        .author-header { position: relative; height: 200px; background-color: var(--light-gray); }
+        .author-avatar { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: var(--card-shadow); z-index: 2; }
+        .author-content { padding: 80px 20px 30px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
+        .author-name { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 5px; }
+        .author-bio { font-size: 15px; color: #666; margin-bottom: 20px; flex-grow: 1; }
+        .author-stats { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .author-stat-number { font-size: 18px; font-weight: 700; color: var(--accent-color); }
+        .author-stat-label { font-size: 12px; color: #666; text-transform: uppercase; }
+        .author-articles-link { display: inline-flex; align-items: center; justify-content: center; margin-top: 20px; padding: 8px 16px; background-color: var(--btn-bg); color: white; border-radius: 4px; font-weight: 500; }
+        .footer { background-color: var(--secondary-color); padding: 40px 0; border-top: 1px solid var(--border-color); margin-top: 60px; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+    <div class="loading-bar" id="loadingBar"></div>
+    
+    <header class="header">
+        <div class="site-title">THE LIMELIGHT</div>
+        <nav class="container"><ul class="nav-menu" id="categoryNav"></ul></nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Our Authors</h1>
+            <p class="page-subtitle">Meet the talented writers who contribute to The Limelight with their unique perspectives and insightful content.</p>
+        </div>
+        <div class="authors-grid" id="authorsGrid"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content container">
+            <div>© 2025 The Limelight Online. All rights reserved.</div>
+            <div><a href="#"><i class="fab fa-facebook-f"></i></a></div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseClient = supabase.createClient('https://whklfmxjknhucguzvpob.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM');
+        const authorsGrid = document.getElementById('authorsGrid');
+        const loadingBar = document.getElementById('loadingBar');
+
+        function showLoading() { loadingBar.style.display = 'block'; }
+        function hideLoading() { loadingBar.style.display = 'none'; }
+
+        async function fetchAuthorsAndCategories() {
+            showLoading();
+            // Fetch Categories for Nav
+            const { data: categories, error } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
+            if (categories) {
+                document.getElementById('categoryNav').innerHTML = `<li class="nav-item"><a href="/index.html">Home</a></li>` + categories.map(c => `<li class="nav-item"><a href="/index.html?categories=${c.slug}">${c.name}</a></li>`).join('') + `<li class="nav-item"><a href="/authors.html">Authors</a></li><li class="nav-item"><a href="/contact.html">Contact</a></li>`;
+            }
+
+            // Fetch Authors
+            const { data: authors } = await supabaseClient.from('authors').select('*').order('full_name');
+            if (authors) {
+                const authorsWithCounts = await Promise.all(authors.map(async (author) => {
+                    const { count } = await supabaseClient.from('posts').select('*', { count: 'exact', head: true }).eq('author_id', author.id);
+                    return { ...author, articleCount: count || 0 };
+                }));
+                authorsGrid.innerHTML = authorsWithCounts.map(author => `
+                    <div class="author-card">
+                        <div class="author-header"><img src="${author.avatar_url || 'https://via.placeholder.com/120'}" alt="${author.full_name}" class="author-avatar"></div>
+                        <div class="author-content">
+                            <h2 class="author-name">${author.full_name}</h2>
+                            <p class="author-bio">${author.bio || 'No bio available.'}</p>
+                            <div class="author-stats"><div class="author-stat"><div class="author-stat-number">${author.articleCount}</div><div class="author-stat-label">Articles</div></div></div>
+                            <a href="/index.html?author=${author.id}" class="author-articles-link">View Articles <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>`).join('');
+            }
+            hideLoading();
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchAuthorsAndCategories);
+    </script>
+</body>
+</html>
