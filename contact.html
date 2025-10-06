@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About & Contact | The Limelight</title>
+    <meta name="description" content="Get in touch with The Limelight magazine. Learn about our mission, vision, and the team behind our publication.">
+    <meta name="keywords" content="about us, contact, limelight, magazine, address, email, phone, mission, vision">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="YOUR_WEBSITE_URL_HERE/contact.html">
+    <meta property="og:title" content="About & Contact | The Limelight">
+    <meta property="og:description" content="Learn about our mission, vision, and the team behind our publication.">
+    <meta property="og:image" content="https://i.ibb.co/jP5y4RxK/Snap-Insta-to-512555097-1409145510378151-4841069157913811354-n.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="YOUR_WEBSITE_URL_HERE/contact.html">
+    <meta property="twitter:title" content="About & Contact | The Limelight">
+    <meta property="twitter:description" content="Learn about our mission, vision, and the team behind our publication.">
+    <meta property="twitter:image" content="https://i.ibb.co/jP5y4RxK/Snap-Insta-to-512555097-1409145510378151-4841069157913811354-n.jpg">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/23BLSNfj/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://i.ibb.co/sdG9FZWh/android-chrome-192x192.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #fff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #8B4513; /* Brownish */
+            --text-color: #333;
+            --light-gray: #e9ecef;
+            --border-color: #dee2e6;
+            --maroon-bg: #800000; /* As per screenshot */
+            --dark-blue-bg: #1a2238; /* As per screenshot footer */
+            --purple-btn: #6f42c1; /* As per screenshot contact form */
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --footer-bg: #1a1a1a;
+            --footer-text: #ccc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--secondary-color); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--accent-color); }
+        
+        /* Header and Nav - Kept from existing file */
+        .header { padding: 20px 0; text-align: center; border-bottom: 1px solid var(--border-color); position: relative; z-index: 100; background-color: var(--primary-color); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .site-title { text-align: left; }
+        .site-title img { max-height: 65px; width: auto; }
+        .nav-container { display: flex; justify-content: flex-end; align-items: center; }
+        .nav-menu { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; align-items: center; }
+        .nav-item { margin: 0 15px; position: relative; }
+        .nav-link { display: flex; align-items: center; font-weight: 500; padding: 5px 0; border-bottom: 2px solid transparent; transition: all 0.3s ease; }
+        .nav-link:hover { color: var(--accent-color); border-bottom-color: var(--accent-color); }
+        .nav-link i { margin-left: 4px; font-size: 12px; }
+        .mobile-nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; z-index: 1001; }
+        .dropdown { position: absolute; top: 100%; left: 0; background: white; min-width: 200px; box-shadow: var(--card-shadow); border-radius: 6px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 100; border: 1px solid var(--border-color); }
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 10px 15px; color: var(--text-color); transition: background-color 0.2s; }
+        .dropdown-item:hover { background-color: var(--light-gray); color: var(--accent-color); }
+        
+        /* New Hero Section */
+        .page-hero {
+            padding: 6rem 1rem;
+            text-align: center;
+            color: white;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.ibb.co/jP5y4RxK/Snap-Insta-to-512555097-1409145510378151-4841069157913811354-n.jpg') no-repeat center center/cover;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .page-hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 4rem 0;
+        }
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--maroon-bg);
+        }
+        .content-section p { color: #555; margin-bottom: 1rem; }
+        .content-section strong { color: var(--text-color); }
+        .core-values {
+            background-color: var(--primary-color);
+            padding: 2rem;
+            border-left: 4px solid var(--maroon-bg);
+        }
+        .core-values h3 { margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
+        .core-values ul { list-style: none; padding-left: 0; }
+        .core-values ul li { margin-bottom: 0.5rem; position: relative; padding-left: 20px; }
+        .core-values ul li::before { content: '✓'; color: var(--maroon-bg); position: absolute; left: 0; }
+        
+        /* Why Choose Us Section */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .reason-card {
+            background-color: var(--primary-color);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .reason-card h3 { font-family: 'Playfair Display', serif; margin-bottom: 0.5rem; }
+        
+        /* Team / Associates Section */
+        .team-section {
+            background-color: var(--primary-color);
+            text-align: center;
+        }
+        .associates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .associate-card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .associate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        .associate-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            margin: -50px auto 1rem auto;
+            display: block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .associate-card h4 { font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .associate-card p { font-size: 0.9rem; color: var(--maroon-bg); }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--maroon-bg);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+        .cta-section p { max-width: 600px; margin: 0 auto 1.5rem auto; opacity: 0.9; }
+        .cta-button {
+            background-color: white;
+            color: var(--maroon-bg);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .cta-button:hover { background-color: var(--secondary-color); }
+        
+        /* Updated Contact Section */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.25fr;
+            gap: 3rem;
+            background-color: var(--primary-color);
+            padding: 3rem;
+            margin-top: 4rem;
+        }
+        .contact-info h2, .contact-form-container h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; }
+        .contact-info p, .contact-form-container p { color: #777; font-size: 1.1rem; }
+        .info-box { border: 1px solid var(--border-color); padding: 2rem; margin-top: 2rem; }
+        .info-item { margin-bottom: 1.5rem; }
+        .info-item strong { display: block; font-weight: 500; margin-bottom: 0.25rem; }
+        .info-item span, .info-item a { color: #666; font-size: 1rem; }
+        
+        .contact-form .form-group { margin-bottom: 1rem; }
+        .contact-form .form-control { width: 100%; padding: 12px; border: 1px solid var(--border-color); background: var(--secondary-color); font-size: 1rem; }
+        .contact-form .form-control:focus { outline: 1px solid var(--purple-btn); }
+        .submit-btn {
+            background-color: var(--purple-btn); color: white; border: none; padding: 12px 25px;
+            font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease;
+        }
+        .submit-btn:hover { background-color: #5a379b; }
+        .follow-box { text-align: center; margin-top: 2rem; }
+        .follow-box a { margin: 0 0.5rem; font-size: 1.5rem; color: var(--text-color); }
+
+        /* Footer */
+        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding-bottom: 40px; border-bottom: 1px solid #444; }
+        .footer-about .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: white; margin-bottom: 15px; }
+        .footer-links h4 { font-size: 18px; color: white; margin-bottom: 20px; font-weight: 500; }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul a { color: var(--footer-text); transition: color 0.2s; }
+        .footer-links ul a:hover { color: white; }
+        #footerSubscribeForm { display: flex; }
+        #footerSubscribeForm input { flex-grow: 1; border: none; padding: 12px; background-color: #333; color: white; }
+        #footerSubscribeForm button { border: none; background-color: var(--purple-btn); color: white; padding: 0 20px; cursor: pointer; }
+        .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) { 
+            .section-grid, .reasons-grid, .contact-wrapper { grid-template-columns: 1fr; }
+            .page-hero h1 { font-size: 2.5rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) { 
+            .site-title { text-align: left; } 
+            .header-content { flex-direction: row; justify-content: space-between; align-items: center; }
+            .mobile-nav-toggle { display: block; order: 2; }
+            .nav-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .nav-container.active { display: block; }
+            .nav-menu { flex-direction: column; align-items: flex-start; padding: 10px 0; }
+            .nav-item { margin: 0; width: 100%; border-bottom: 1px solid var(--border-color); }
+            .nav-link { padding: 15px 20px; width: 100%; justify-content: flex-start; }
+            .dropdown { position: static; box-shadow: none; border: none; background: #f9f9f9; padding-left: 20px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .contact-wrapper { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="site-title">
+                <a href="index.html">
+                    <img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo">
+                </a>
+            </div>
+            <button class="mobile-nav-toggle" aria-label="Open navigation menu"><i class="fas fa-bars"></i></button>
+            <div class="nav-container" id="navContainer">
+                <ul class="nav-menu" id="categoryNav"></ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <h1>About The Limelight</h1>
+            <p>A bimonthly webzine dedicated to inspiring stories, thoughtful insights, and diverse perspectives.</p>
+        </section>
+        
+        <div class="container">
+            <section class="content-section">
+                <div class="section-grid">
+                    <div>
+                        <h2 class="section-title">Who We Are</h2>
+                        <p><strong>The Limelight</strong> is a bimonthly online magazine created to shine a light on stories that matter. We blend creative writing, journalism, and cultural commentary into a platform that informs, inspires, and sparks meaningful conversations.</p>
+                        <p>Our commitment is to provide a publication where readers can explore diverse voices, new perspectives, and thought-provoking narratives — without the noise.</p>
+                    </div>
+                    <div class="core-values">
+                        <h3>Our Core Values</h3>
+                        <ul>
+                            <li>Quality writings that educates and inspires.</li>
+                            <li>Representing diverse voices and cultures.</li>
+                            <li>Encouraging fresh perspectives and innovation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                 <div class="section-grid">
+                    <div>
+                        <h2 class="section-title">Our Mission</h2>
+                        <p>To create a trusted platform that publishes inspiring, well-crafted, and thought-provoking content, while remaining free from unnecessary noise and distractions.</p>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Our Vision</h2>
+                        <p>To be a global voice for meaningful storytelling, recognized for our integrity, creativity, and ability to inspire readers to think beyond the ordinary.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="content-section" style="background-color: var(--primary-color);">
+            <div class="container" style="text-align:center;">
+                <h2 class="section-title">Why Readers Choose The Limelight</h2>
+                <div class="reasons-grid">
+                    <div class="reason-card">
+                        <h3>Authentic Voices</h3>
+                        <p>We feature writers and thinkers from diverse backgrounds.</p>
+                    </div>
+                    <div class="reason-card">
+                        <h3>Bimonthly Quality</h3>
+                        <p>Every issue is curated for depth, not rushed for clicks.</p>
+                    </div>
+                    <div class="reason-card">
+                        <h3>Inspiring Content</h3>
+                        <p>Stories that stay with you long after you’ve read them.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="team-section content-section">
+            <div class="container">
+                <h2 class="section-title">Key Associates</h2>
+                <div class="associates-grid">
+                    <div class="associate-card">
+                        <img src="https://i.ibb.co/jj3L0hp/Whats-App-Image-2025-10-06-at-15-13-01-95b04e94.jpg" alt="Sayyed Mashur Hudawi">
+                        <h4>Sayyed Mashur Hudawi</h4>
+                        <p>Chief Editor</p>
+                    </div> 
+                    <div class="associate-card">
+                        <img src="https://i.ibb.co/xKyHDV0W/image.png" alt="Suhail Hudawi Nattukal">
+                        <h4>Suhail Hudawi Nattukal</h4>
+                        <p>Editor in Charge</p>
+                    </div>
+                    
+                    <div class="associate-card">
+                        <img src="https://i.ibb.co/prMpvTPM/Whats-App-Image-2025-10-06-at-21-01-00-b479a808.jpg" alt="Midlaj Wafy Kodiyathur">
+                        <h4>Midlaj Wafy Kodiyathur</h4>
+                        <p>Executive Editor</p>
+                    </div>
+<BR>
+<div class="associate-card">
+                        <img src="https://i.ibb.co/tpLpwgnx/mutswbgyxh6i3eyxspt3.jpg" alt="Hisan Kakkathadam">
+                        <h4>Hisan Kakkathadam</h4>
+                        <p>Executive Manager</p>
+                    </div>
+                    <div class="associate-card">
+                        <img src="https://whklfmxjknhucguzvpob.supabase.co/storage/v1/object/public/author_avatars/avatar-1759573199178-_MG_6207.JPG" alt="Sayyaf Pukayoor">
+                        <h4>Sayyaf Pukayoor</h4>
+                        <p>Associate Editor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Be Part of The Limelight</h2>
+            <p>Subscribe to our bimonthly issues, share your thoughts, or contribute your own writing to our publication.</p>
+            <a href="#contact-section" class="cta-button">Contact Us</a>
+        </section>
+        
+        <div class="container" id="contact-section">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h2>CONTACT US</h2>
+                    <p>A brand you can trust</p>
+                    <h3>How can we help?</h3>
+                    <div class="info-box">
+                        <div class="info-item">
+                            <strong>Drop us a line:</strong>
+                            <span>thelimelightin@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Call us any time:</strong>
+                            <span>+91 8136875462</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Visit us at:</strong>
+                            <span>Shamsul Huda Islamic Academy, Kuttikkattoor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                             <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" class="form-control" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" class="form-control" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                    <div class="follow-box">
+                        <strong>Follow us</strong>
+                         <div class="social-share">
+                            <a href="https://www.instagram.com/the_limelight_bimonthly/" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://thelimelightonline.in" aria-label="Website" target="_blank"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <h3 class="footer-logo">THE LIMELIGHT</h3>
+                <p>The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul id="footerCategoryNav"></ul>
+            </div>
+            <div class="footer-links">
+                <h4>Help & Support</h4>
+                <ul id="footerSupportNav"></ul>
+            </div>
+            <div class="footer-subscribe">
+                <h4>Email Newsletter</h4>
+                <p>Subscribe to receive notifications on our exclusive posts and shares.</p>
+                <form id="footerSubscribeForm">
+                    <input type="email" placeholder="Your Email" required>
+                    <button type="submit">SUBSCRIBE</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2025. The Limelight Online. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://whklfmxjknhucguzvpob.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function fetchCategories() {
+            const { data: categories, error } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
+            if (error) { console.error('Error fetching categories:', error); return; }
+            
+            const navItems = await Promise.all(categories.map(async (category) => {
+                const { data: subcategories } = await supabaseClient.from('categories').select('*').eq('parent_id', category.id).order('name');
+                return { category, subcategories: subcategories || [] };
+            }));
+            
+            const nav = document.getElementById('categoryNav');
+            const footerNav = document.getElementById('footerCategoryNav');
+            let navHtml = `<li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>`;
+            let footerNavHtml = `<li><a href="index.html">Home</a></li>`;
+            
+            navItems.forEach(item => {
+                navHtml += `
+                    <li class="nav-item">
+                        <a href="index.html?categories=${item.category.slug}" class="nav-link">${item.category.name}${item.subcategories.length > 0 ? '<i class="fas fa-chevron-down"></i>' : ''}</a>
+                        ${item.subcategories.length > 0 ? `<div class="dropdown">${item.subcategories.map(sub => `<a href="index.html?categories=${sub.slug}" class="dropdown-item">${sub.name}</a>`).join('')}</div>` : ''}
+                    </li>`;
+                footerNavHtml += `<li><a href="index.html?categories=${item.category.slug}">${item.category.name}</a></li>`;
+            });
+
+            navHtml += `<li class="nav-item"><a href="authors.html" class="nav-link">Authors</a></li>
+                        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>`;
+            nav.innerHTML = navHtml;
+            footerNav.innerHTML = footerNavHtml;
+        }
+
+        async function fetchFooterLinks() {
+            const { data, error } = await supabaseClient.from('footer_links').select('title, url').order('title');
+            if (error) { console.error("Error fetching footer links:", error); return; }
+            const footerSupportNav = document.getElementById('footerSupportNav');
+            footerSupportNav.innerHTML = data.map(link => `<li><a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.title}</a></li>`).join('');
+        }
+        
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                created_at: new Date()
+            };
+            
+            const { error } = await supabaseClient.from('contact_messages').insert([formData]);
+            
+            if (error) {
+                alert('Error sending message: ' + error.message);
+            } else {
+                alert('Thank you for your message! We will get back to you soon.');
+                e.target.reset();
+            }
+        });
+
+        function setupMobileNav() {
+            const toggleBtn = document.querySelector('.mobile-nav-toggle');
+            const navContainer = document.getElementById('navContainer');
+            toggleBtn.addEventListener('click', () => {
+                navContainer.classList.toggle('active');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchCategories();
+            fetchFooterLinks();
+            setupMobileNav();
+        });
+    </script>
+</body>
+</html>
