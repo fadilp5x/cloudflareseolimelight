@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Limelight - Article</title>
+    
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="">
+    <meta property="twitter:title" content="">
+    <meta property="twitter:description" content="">
+    <meta property="twitter:image" content="">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/23BLSNfj/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="https://i.ibb.co/sdG9FZWh/android-chrome-192x192.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #fff; --secondary-color: #f8f9fa; --accent-color: #8B4513; --text-color: #333; --light-gray: #e9ecef; --border-color: #dee2e6; --tag-bg: #f8f0f5; --tag-text: #9c27b0; --btn-bg: #9c27b0; --btn-hover: #7b1fa2; --card-shadow: 0 4px 12px rgba(0,0,0,0.08); --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12); --transition-speed: 0.3s; --footer-bg: #1a1a1a; --footer-text: #ccc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .full-width-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--accent-color); }
+        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(to right, transparent, var(--accent-color), transparent); background-size: 200% 100%; animation: loading 1.5s infinite linear; z-index: 9999; display: none; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .site-title img { max-height: 65px; width: auto; }
+        .nav-menu { display: flex; list-style: none; align-items: center; }
+        .nav-item { margin: 0; position: relative; padding: 0 15px; border-left: 1px solid var(--border-color); }
+        .nav-item:first-child { border-left: none; }
+        .nav-link { display: flex; align-items: center; font-weight: 500; padding: 10px 0; transition: all 0.3s ease; }
+        .nav-link:hover { color: var(--accent-color); }
+        .nav-link i { margin-left: 4px; font-size: 12px; }
+        .nav-search .search-container { position: relative; display: flex; align-items: center; height: 40px; }
+        .nav-search .search-icon-btn { cursor: pointer; font-size: 16px; padding: 10px; border-radius: 50%; background-color: transparent; transition: all var(--transition-speed); }
+        .nav-search .search-container input { border: 1px solid var(--border-color); outline: none; background-color: #fff; padding: 10px 15px; border-radius: 20px; font-size: 14px; width: 0; opacity: 0; visibility: hidden; transform: translateX(10px); transition: all var(--transition-speed) ease; }
+        .nav-search .search-container.active input { width: 200px; opacity: 1; visibility: visible; transform: translateX(0); }
+        #searchResultsContainer { display: none; position: absolute; top: calc(100% + 10px); right: 0; width: 350px; background: white; box-shadow: var(--card-shadow); border-radius: 6px; z-index: 1000; max-height: 400px; overflow-y: auto; }
+        .search-result-item { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .search-result-thumbnail { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px; }
+        .search-result-title { font-weight: 500; margin-bottom: 5px; }
+        .mobile-nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; z-index: 1001; }
+        .dropdown { position: absolute; top: 100%; left: 0; background: var(--accent-color); min-width: 220px; box-shadow: var(--card-shadow); border-radius: 6px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all var(--transition-speed) ease; z-index: 100; }
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 12px 20px; color: white; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .dropdown-item:hover { background-color: rgba(0,0,0,0.1); }
+        .article-page { margin: 40px auto; animation: fadeIn 0.8s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .article-meta { margin-bottom: 30px; text-align: center; }
+        .category-tag { display: inline-block; background-color: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500; margin-bottom: 15px; text-transform: uppercase; }
+        .article-title { font-family: 'Playfair Display', serif; font-size: 42px; margin-bottom: 20px; line-height: 1.2; font-weight: 700; }
+        .author-profile { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 30px; }
+        .author-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
+        .featured-image { width: 100%; height: auto; max-height: 500px; object-fit: cover; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .article-body { font-size: 18px; line-height: 1.8; margin-bottom: 40px; font-family: 'Georgia', serif; }
+        .article-body p { margin-bottom: 20px; text-align: justify; }
+        .article-body h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 30px 0 20px; color: var(--accent-color); font-weight: 700; }
+        .article-body blockquote { border-left: 4px solid var(--tag-text); padding-left: 20px; margin: 20px 0; font-style: italic; color: #555; font-size: 20px; }
+        .article-body img { max-width: 100%; height: auto; margin: 20px 0; border: 1px solid var(--border-color); }
+        .article-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .action-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: var(--btn-bg); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; transition: all var(--transition-speed) ease; }
+        .related-articles { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border-color); }
+        .related-title { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 30px; text-align: center; font-weight: 700; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+        .related-article { background-color: white; border: 1px solid var(--border-color); transition: all var(--transition-speed) ease; }
+        .related-article:hover { transform: translateY(-5px); box-shadow: var(--card-hover-shadow); }
+        .related-image { width: 100%; height: 150px; object-fit: cover; }
+        .related-content { padding: 20px; }
+        .related-title-text { font-size: 16px; font-weight: 500; margin-bottom: 10px; font-family: 'Playfair Display', serif; }
+        .author-bio-section { margin-top: 60px; padding: 30px; border: 1px solid var(--border-color); }
+        .author-bio-header { display: flex; align-items: center; margin-bottom: 20px; gap: 20px; }
+        .author-bio-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+        .author-bio-name { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding-bottom: 40px; border-bottom: 1px solid #444; }
+        .footer-about .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: white; margin-bottom: 15px; }
+        .footer-links h4 { font-size: 18px; color: white; margin-bottom: 20px; font-weight: 500; }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 12px; }
+        #footerSubscribeForm { display: flex; }
+        #footerSubscribeForm input { flex-grow: 1; border: none; padding: 12px; background-color: #333; color: white; }
+        #footerSubscribeForm button { border: none; background-color: var(--btn-bg); color: white; padding: 0 20px; cursor: pointer; }
+        .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
+        @media print { .header, .nav-menu, .article-actions, .related-articles, .author-bio-section, .site-footer { display: none; } }
+        @media (max-width: 992px) { .footer-grid, .related-grid { grid-template-columns: 1fr 1fr; } .mobile-nav-toggle { display: block; } .nav-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } .nav-container.active { display: block; } .nav-menu { display: none; flex-direction: column; align-items: flex-start; padding: 10px 0; } .nav-container.active .nav-menu { display: flex; } .nav-item { margin: 0; width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); } .nav-link { padding: 15px 20px; width: 100%; } .dropdown { position: static; box-shadow: none; border: none; background: #f9f9f9; padding-left: 20px; } .dropdown-item { color: var(--text-color); } }
+        @media (max-width: 768px) { .site-title img { max-height: 50px; } .article-title { font-size: 32px; } .article-body { font-size: 16px; } .related-grid { grid-template-columns: 1fr; } .author-bio-header { flex-direction: column; text-align: center; } .footer-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="loading-bar" id="loadingBar"></div>
+    
+    <header class="header">
+        <div class="full-width-container header-content">
+            <div class="site-title"><a href="/index.html"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo"></a></div>
+            <button class="mobile-nav-toggle" aria-label="Open navigation menu"><i class="fas fa-bars"></i></button>
+            <div class="nav-container" id="navContainer"><ul class="nav-menu" id="categoryNav"></ul></div>
+        </div>
+    </header>
+
+    <main class="container"><div class="article-page" id="articleContainer"></div></main>
+
+    <footer class="site-footer">
+        <div class="full-width-container footer-grid">
+            <div class="footer-about"><h3 class="footer-logo">THE LIMELIGHT</h3><p>Insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p></div>
+            <div class="footer-links"><h4>Categories</h4><ul id="footerCategoryNav"></ul></div>
+            <div class="footer-links"><h4>Help & Support</h4><ul id="footerSupportNav"></ul></div>
+            <div class="footer-subscribe"><h4>Email Newsletter</h4><p>Subscribe for notifications on exclusive posts.</p><form id="footerSubscribeForm"><input type="email" placeholder="Your Email" required><button type="submit">SUBSCRIBE</button></form></div>
+        </div>
+        <div class="footer-bottom"><p>Copyright © 2025. The Limelight Online. All rights reserved.</p></div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://whklfmxjknhucguzvpob.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // === NEW: Get slug from URL path ===
+        const pathParts = window.location.pathname.split('/');
+        const postSlug = pathParts[pathParts.length - 1];
+        // ===================================
+        
+        const loadingBar = document.getElementById('loadingBar');
+        const articleContainer = document.getElementById('articleContainer');
+
+        function showLoading() { loadingBar.style.display = 'block'; }
+        function hideLoading() { loadingBar.style.display = 'none'; }
+        
+        async function fetchArticle() {
+            showLoading();
+            const { data: article, error } = await supabaseClient
+                .from('posts')
+                .select(`*, authors(*), categories(*)`)
+                .eq('slug', postSlug) // Use postSlug from path
+                .single();
+            
+            if (error) {
+                console.error('Error fetching article:', error);
+                articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>The article you're looking for doesn't exist.</p><a href="/index.html">Return to Homepage</a></div>`;
+                hideLoading();
+                return;
+            }
+            
+            renderArticle(article);
+            fetchRelatedArticles(article.category_id, article.id);
+            hideLoading();
+        }
+
+        function renderArticle(article) {
+            articleContainer.innerHTML = `
+                <div class="article-meta">
+                    <a href="/index.html?categories=${article.categories.slug}" class="category-tag">${article.categories.name}</a>
+                    <h1 class="article-title">${article.title}</h1>
+                    <div class="author-profile">
+                        <img src="${article.authors.avatar_url || 'https://via.placeholder.com/60'}" alt="${article.authors.full_name}" class="author-avatar">
+                        <div><div class="author-name">By <a href="/index.html?author=${article.authors.id}">${article.authors.full_name}</a></div><div class="article-date">${new Date(article.created_at).toLocaleDateString()}</div></div>
+                    </div>
+                </div>
+                <img src="${article.image_url}" alt="${article.title}" class="featured-image">
+                <div class="article-body">${article.content}</div>
+                <div class="article-actions">
+                    <button class="action-btn" id="shareBtn"><i class="fas fa-share-alt"></i> Share</button>
+                    <button class="action-btn" id="printBtn"><i class="fas fa-print"></i> Print</button>
+                </div>
+                <div class="author-bio-section">
+                    <div class="author-bio-header">
+                        <img src="${article.authors.avatar_url || 'https://via.placeholder.com/80'}" alt="${article.authors.full_name}" class="author-bio-avatar">
+                        <div><h2 class="author-bio-name">${article.authors.full_name}</h2><div class="author-bio-text">${article.authors.bio || 'No bio available.'}</div></div>
+                    </div>
+                </div>
+                <section class="related-articles"><h2 class="related-title">Related Articles</h2><div class="related-grid" id="relatedGrid"></div></section>`;
+            setupArticleActions(article);
+        }
+
+        async function fetchRelatedArticles(categoryId, currentArticleId) {
+            const { data: related } = await supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name)`).eq('category_id', categoryId).neq('id', currentArticleId).order('created_at', { ascending: false }).limit(3);
+            const grid = document.getElementById('relatedGrid');
+            if (related && related.length > 0) {
+                grid.innerHTML = related.map(article => `
+                    <a href="/article/${article.slug}" class="related-article">
+                        <img src="${article.image_url}" alt="${article.title}" class="related-image">
+                        <div class="related-content"><span class="category-tag">${article.categories.name}</span><h3 class="related-title-text">${article.title}</h3><p class="related-author"><i class="fas fa-user"></i> ${article.authors.full_name}</p></div>
+                    </a>`).join('');
+            }
+        }
+
+        function setupArticleActions(article) {
+            document.getElementById('shareBtn').addEventListener('click', () => {
+                if (navigator.share) { navigator.share({ title: article.title, text: article.excerpt, url: window.location.href }); } 
+                else { navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied to clipboard!')); }
+            });
+            document.getElementById('printBtn').addEventListener('click', () => window.print());
+        }
+
+        async function fetchCategoriesAndLinks() {
+            const { data: categories, error } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
+            if (error) { console.error('Error fetching categories:', error); return; }
+            const navItems = await Promise.all(categories.map(async c => ({ c, subs: (await supabaseClient.from('categories').select('*').eq('parent_id', c.id).order('name')).data || [] })));
+            
+            const nav = document.getElementById('categoryNav');
+            const footerNav = document.getElementById('footerCategoryNav');
+            let navHtml = `<li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>`;
+            let footerNavHtml = `<li><a href="/index.html">Home</a></li>`;
+            navItems.forEach(item => {
+                navHtml += `<li class="nav-item"><a href="/index.html?categories=${item.c.slug}" class="nav-link">${item.c.name}${item.subs.length > 0 ? ' <i class="fas fa-chevron-down"></i>' : ''}</a>${item.subs.length > 0 ? `<div class="dropdown">${item.subs.map(s => `<a href="/index.html?categories=${s.slug}" class="dropdown-item">${s.name}</a>`).join('')}</div>` : ''}</li>`;
+                footerNavHtml += `<li><a href="/index.html?categories=${item.c.slug}">${item.c.name}</a></li>`;
+            });
+            navHtml += `<li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li><li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li><li class="nav-item nav-search"><div class="search-container" id="searchContainer"><i class="fas fa-search search-icon-btn"></i><input type="text" id="searchInput" placeholder="Search..."></div><div id="searchResultsContainer"></div></li>`;
+            nav.innerHTML = navHtml;
+            footerNav.innerHTML = footerNavHtml;
+            setupSearch();
+        }
+
+        let searchTimeout;
+        function setupSearch() {
+            const searchContainer = document.getElementById('searchContainer'), searchIcon = searchContainer.querySelector('.search-icon-btn'), searchInput = searchContainer.querySelector('#searchInput'), resultsContainer = document.getElementById('searchResultsContainer');
+            searchIcon.addEventListener('click', (e) => { e.stopPropagation(); searchContainer.classList.toggle('active'); if(searchContainer.classList.contains('active')) searchInput.focus(); });
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                const term = searchInput.value;
+                if (term.length < 2) { resultsContainer.style.display = 'none'; return; }
+                resultsContainer.style.display = 'block';
+                resultsContainer.innerHTML = '<p style="padding: 20px; text-align: center;">Searching...</p>';
+                searchTimeout = setTimeout(async () => {
+                    const { data } = await supabaseClient.from('posts').select('title, slug, image_url').ilike('title', `%${term}%`).limit(5);
+                    if (data && data.length > 0) { resultsContainer.innerHTML = data.map(p => `<a href="/article/${p.slug}" class="search-result-item"><img src="${p.image_url || 'https://via.placeholder.com/60'}" alt="${p.title}" class="search-result-thumbnail"><div class="search-result-text"><div>${p.title}</div></div></a>`).join(''); } 
+                    else { resultsContainer.innerHTML = '<p style="padding: 20px; text-align: center;">No results found.</p>'; }
+                }, 300);
+            });
+            document.addEventListener('click', (e) => { if (!searchContainer.contains(e.target)) { searchContainer.classList.remove('active'); resultsContainer.style.display = 'none'; } });
+        }
+
+        function setupMobileNav() {
+            document.querySelector('.mobile-nav-toggle').addEventListener('click', () => document.getElementById('navContainer').classList.toggle('active'));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchCategoriesAndLinks();
+            setupMobileNav();
+            if (postSlug) { fetchArticle(); } 
+            else { articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>No article specified.</p><a href="/index.html">Return to Homepage</a></div>`; }
+        });
+    </script>
+</body>
+</html>
