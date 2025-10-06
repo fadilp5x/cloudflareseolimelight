@@ -1,6 +1,7 @@
 // functions/article/[[slug]].js
 
-import { createClient } from '@supabase/supabase-js';
+// CORRECTED: Import directly from the Supabase CDN URL
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
 
 // A simple in-memory cache to avoid re-fetching the HTML template on every request
 let _html;
@@ -14,7 +15,6 @@ export async function onRequest(context) {
         );
 
         // 2. Get the article slug from the URL path
-        // For a URL like /article/my-first-post, context.params.slug will be ['my-first-post']
         const slug = context.params.slug[0];
         if (!slug) {
             return new Response('Article slug is missing.', { status: 400 });
@@ -29,7 +29,6 @@ export async function onRequest(context) {
 
         if (error || !article) {
             console.error('Article not found or error fetching:', slug, error);
-            // Redirect to the homepage if the article doesn't exist
             return Response.redirect(new URL('/', context.request.url).toString(), 302);
         }
 
@@ -49,7 +48,6 @@ export async function onRequest(context) {
         const pageUrl = new URL(`/article/${slug}`, originUrl).toString();
 
         // 5. Replace the placeholder meta tags with dynamic content
-        // This is a robust way to replace tags regardless of their exact formatting
         const finalHtml = _html
             .replace(/<title>.*?<\/title>/, `<title>${article.title.replace(/"/g, '&quot;')} | The Limelight</title>`)
             .replace(/<meta name="description" content=".*?"\s*\/?>/, `<meta name="description" content="${article.excerpt.replace(/"/g, '&quot;')}" />`)
