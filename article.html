@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root {
+        :root, :root[data-theme='light'] {
             --primary-color: #fff;
             --secondary-color: #f8f9fa;
             --accent-color: #8B4513;
@@ -34,15 +34,24 @@
             --footer-bg: #1a1a1a;
             --footer-text: #ccc;
         }
+        :root[data-theme='dark'] {
+            --primary-color: #1a1a1a;
+            --secondary-color: #2c2c2c;
+            --text-color: #ccc;
+            --light-gray: #3a3a3a;
+            --border-color: #444;
+            --footer-bg: #111;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.7; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.7; transition: background-color 0.3s, color 0.3s; }
         .page-wrapper { display: flex; justify-content: center; }
-        .main-container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 150px 800px 1fr; gap: 3rem; padding: 0 20px; }
+        .main-container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 1fr 800px 1fr; gap: 2rem; padding: 0 20px; }
         .left-sidebar, .right-sidebar { padding-top: 120px; }
         .sticky-sidebar-item { position: sticky; top: 120px; }
         a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
         a:hover { color: var(--accent-color); }
+        .reading-progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color); z-index: 10000; transform-origin: left; transform: scaleX(0); transition: transform 0.1s linear; }
         .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background-color: var(--primary-color); z-index: 100; }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .site-title img { max-height: 65px; width: auto; }
@@ -66,34 +75,51 @@
         .article-body p { margin-bottom: 20px; text-align: justify; }
         .article-body h2, .article-body h3 { font-family: 'Playfair Display', serif; margin: 40px 0 20px; color: var(--accent-color); }
         .article-body h2 { font-size: 28px; }
-        .article-body blockquote { border-left: 4px solid var(--tag-text); padding-left: 20px; margin: 20px 0; font-style: italic; color: #555; font-size: 20px; }
-        .article-body img { max-width: 100%; height: auto; margin: 20px 0; }
-        
-        /* Floating Social Share Bar */
+        .article-body blockquote { border-left: 4px solid var(--accent-color); padding-left: 20px; margin: 25px 0; font-style: italic; color: #555; font-size: 20px; }
+        .article-body img { max-width: 100%; height: auto; margin: 20px auto; display: block; }
+
+        /* Left Sidebar Content */
+        #toc-container { font-size: 14px; margin-bottom: 2rem; }
+        #toc-container h4 { font-family: 'Playfair Display', serif; margin-bottom: 15px; font-size: 16px; }
+        #toc-container ul { list-style: none; padding-left: 0; }
+        #toc-container ul li a { display: block; padding: 5px 0 5px 10px; border-left: 2px solid var(--border-color); color: #888; }
+        #toc-container ul li a.active { border-left-color: var(--accent-color); font-weight: 500; color: var(--text-color); }
+        #toc-container ul ul { padding-left: 15px; }
         .floating-share { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .floating-share .share-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; }
+        .floating-share .share-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 5px; }
         .floating-share a { font-size: 18px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s; }
         .floating-share a:hover { transform: scale(1.15); }
         .share-fb { color: #1877F2; } .share-tw { color: #1DA1F2; } .share-wa { color: #25D366; } .share-em { color: #777; }
+        .theme-toggle { cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--border-color); border-radius: 50%; margin-top: 15px; }
         
-        /* Author Box (Moved Up) */
+        /* New Author Box */
         .author-bio-box { border: 1px solid #000; padding: 30px; text-align: center; margin: 60px 0 40px 0; }
         .author-bio-box .author-title { text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 20px; }
         .author-bio-box img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
         .author-bio-box h4 { font-family: 'Playfair Display', serif; font-size: 22px; }
         .author-bio-box p { font-size: 15px; color: #666; max-width: 600px; margin: 10px auto 0; }
-
-        /* Bottom Share & Related */
+        
+        /* Bottom Share */
         .bottom-share-bar { display: flex; align-items: center; gap: 20px; margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid var(--border-color); }
         .bottom-share-bar span { font-weight: 500; }
         .bottom-share-bar a { font-size: 22px; }
+        
+        /* Enhanced Related Articles */
         .related-articles { margin: 40px 0; }
         .related-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 20px; }
-        .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .related-card { border: 1px solid var(--border-color); }
-        .related-card img { width: 100%; height: 120px; object-fit: cover; }
-        .related-card h5 { padding: 15px; font-size: 15px; font-weight: 500; }
+        .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .related-card { display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: all 0.2s ease; }
+        .related-card:hover { box-shadow: var(--card-shadow); }
+        .related-card img { width: 100%; height: 150px; object-fit: cover; }
+        .related-card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .related-card-content h5 { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 10px; flex-grow: 1; }
+        .related-card-author { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #666; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px; }
+        .related-card-author img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
         
+        /* Back to Top Button */
+        #backToTopBtn { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background: var(--accent-color); color: white; border: none; border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 100; opacity: 0; transition: opacity 0.3s, transform 0.3s; }
+        #backToTopBtn.show { opacity: 1; display: flex; }
+
         /* Restored Footer */
         .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
         .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px 40px 20px; border-bottom: 1px solid #444; }
@@ -125,6 +151,8 @@
     </style>
 </head>
 <body>
+    <div class="reading-progress-bar" id="readingProgressBar"></div>
+    
     <header class="header">
         <div class="header-content">
             <div class="site-title"><a href="/index.html"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo"></a></div>
@@ -138,12 +166,14 @@
         <div class="main-container">
             <aside class="left-sidebar">
                 <div class="sticky-sidebar-item">
+                    <div id="toc-container"></div>
                     <div class="floating-share">
                         <span class="share-title">Share</span>
                         <a href="#" id="shareFacebook" class="share-fb" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" id="shareTwitter" class="share-tw" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
                         <a href="#" id="shareWhatsapp" class="share-wa" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
                         <a href="#" id="shareEmail" class="share-em" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
+                        <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
                     </div>
                 </div>
             </aside>
@@ -184,6 +214,8 @@
         </div>
     </footer>
 
+    <button id="backToTopBtn" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = 'https://whklfmxjknhucguzvpob.supabase.co';
@@ -194,7 +226,10 @@
         const postSlug = pathParts[pathParts.length - 1];
         
         const articleContainer = document.getElementById('articleContainer');
-
+        const progressBar = document.getElementById('readingProgressBar');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        
         async function fetchArticle() {
             const { data: article, error } = await supabaseClient.from('posts').select(`*, authors(*), categories(*)`).eq('slug', postSlug).single();
             
@@ -206,6 +241,8 @@
             await renderArticle(article);
             await fetchRelatedArticles(article.category_id, article.id);
             setupShareLinks(article);
+            setupTableOfContents();
+            setupReadingProgress();
         }
 
         async function renderArticle(article) {
@@ -220,7 +257,7 @@
                     </div>
                 </div>
                 <img src="${article.image_url}" alt="${article.title}" class="featured-image">
-                <div class="article-body">${article.content}</div>
+                <div class="article-body" id="articleBody">${article.content}</div>
 
                 <div class="author-bio-box">
                     <div class="author-title">Author</div>
@@ -245,7 +282,7 @@
         }
         
         async function fetchRelatedArticles(categoryId, currentArticleId) {
-            const { data: related } = await supabaseClient.from('posts').select(`slug, title, image_url`).eq('category_id', categoryId).neq('id', currentArticleId).order('created_at', { ascending: false }).limit(3);
+            const { data: related } = await supabaseClient.from('posts').select(`slug, title, image_url, excerpt, authors(full_name, avatar_url)`).eq('category_id', categoryId).neq('id', currentArticleId).order('created_at', { ascending: false }).limit(3);
             const section = document.getElementById('relatedArticlesSection');
             if (related && related.length > 0) {
                 section.innerHTML = `
@@ -254,7 +291,13 @@
                         ${related.map(article => `
                             <a href="/article/${article.slug}" class="related-card">
                                 <img src="${article.image_url || 'https://via.placeholder.com/400x200'}" alt="${article.title}">
-                                <h5>${article.title}</h5>
+                                <div class="related-card-content">
+                                    <h5>${article.title}</h5>
+                                    <div class="related-card-author">
+                                        <img src="${article.authors.avatar_url || 'https://via.placeholder.com/30'}" alt="${article.authors.full_name}">
+                                        <span>${article.authors.full_name}</span>
+                                    </div>
+                                </div>
                             </a>
                         `).join('')}
                     </div>`;
@@ -315,6 +358,85 @@
                 supportNav.innerHTML = links.map(l => `<li><a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.title}</a></li>`).join('');
             }
         }
+        
+        function setupTableOfContents() {
+            const articleBody = document.getElementById('articleBody');
+            const tocContainer = document.getElementById('toc-container');
+            if (!articleBody || !tocContainer) return;
+
+            const headings = articleBody.querySelectorAll('h2, h3');
+            if (headings.length < 2) {
+                tocContainer.style.display = 'none';
+                return;
+            }
+
+            let tocHtml = '<h4>In This Article</h4><ul>';
+            let activeHeadings = new Map();
+
+            headings.forEach((heading, index) => {
+                const id = `heading-${index}`;
+                heading.id = id;
+                const level = heading.tagName === 'H2' ? 1 : 2;
+                
+                tocHtml += `<li class="toc-level-${level}"><a href="#${id}">${heading.textContent}</a></li>`;
+                activeHeadings.set(heading, tocContainer.querySelector(`a[href="#${id}"]`));
+            });
+            tocHtml += '</ul>';
+            tocContainer.innerHTML = tocHtml;
+
+            // Active link highlighting on scroll
+            const observer = new IntersectionObserver(entries => {
+                let visibleHeadings = [];
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        visibleHeadings.push(entry.target);
+                    }
+                });
+
+                activeHeadings.forEach(link => link.classList.remove('active'));
+                if (visibleHeadings.length > 0) {
+                    const topMostVisible = visibleHeadings.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
+                    activeHeadings.get(topMostVisible).classList.add('active');
+                }
+
+            }, { rootMargin: "0px 0px -50% 0px" });
+
+            headings.forEach(h => observer.observe(h));
+        }
+
+        function setupReadingProgress() {
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                progressBar.style.transform = `scaleX(${scrollPercent / 100})`;
+                
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+        }
+        
+        // --- Theme Toggle Logic ---
+        const applyTheme = (theme) => {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('limelight-theme', theme);
+        };
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+        const savedTheme = localStorage.getItem('limelight-theme') || 'light';
+        applyTheme(savedTheme);
+        
+        // --- Back to Top Logic ---
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchDynamicMenus();
