@@ -29,8 +29,9 @@
             --text-color: #333;
             --light-gray: #e9ecef;
             --border-color: #dee2e6;
-            --tag-text: #9c27b0;
+            --limelight-purple: #9C27B0;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12);
             --footer-bg: #1a1a1a;
             --footer-text: #ccc;
         }
@@ -62,6 +63,7 @@
         .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
         .dropdown-item { display: block; padding: 10px 15px; color: var(--text-color); transition: background-color 0.2s; }
         .dropdown-item:hover { background-color: var(--light-gray); }
+        .mobile-nav-toggle { display: none; }
         
         /* Article Styles */
         .article-page { margin: 40px 0; }
@@ -75,7 +77,7 @@
         .article-body p { margin-bottom: 20px; text-align: justify; }
         .article-body h2, .article-body h3 { font-family: 'Playfair Display', serif; margin: 40px 0 20px; color: var(--accent-color); }
         .article-body h2 { font-size: 28px; }
-        .article-body blockquote { border-left: 4px solid var(--accent-color); padding-left: 20px; margin: 25px 0; font-style: italic; color: #555; font-size: 20px; }
+        .article-body blockquote { border-left: 4px solid var(--limelight-purple); padding-left: 20px; margin: 25px 0; font-style: italic; color: #555; font-size: 20px; }
         .article-body img { max-width: 100%; height: auto; margin: 20px auto; display: block; }
 
         /* Left Sidebar Content */
@@ -108,12 +110,13 @@
         .related-articles { margin: 40px 0; }
         .related-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 20px; }
         .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
-        .related-card { display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: all 0.2s ease; }
-        .related-card:hover { box-shadow: var(--card-shadow); }
+        .related-card { display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: all 0.3s ease; }
+        .related-card:hover { transform: translateY(-5px); box-shadow: var(--card-hover-shadow); }
         .related-card img { width: 100%; height: 150px; object-fit: cover; }
         .related-card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .related-card-content h5 { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 10px; flex-grow: 1; }
-        .related-card-author { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #666; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px; }
+        .related-card-content h5 { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 10px; }
+        .related-excerpt { font-size: 14px; color: #666; margin-bottom: 15px; flex-grow: 1; }
+        .related-card-author { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #666; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 15px; }
         .related-card-author img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
         
         /* Back to Top Button */
@@ -142,6 +145,16 @@
             .main-container { grid-template-columns: 1fr; }
             .left-sidebar, .right-sidebar { display: none; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
+            .mobile-nav-toggle { display: block; background: none; border: none; font-size: 24px; cursor: pointer; z-index: 1001; }
+            .nav-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--primary-color); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .nav-container.active { display: block; }
+            .nav-menu { display: none; flex-direction: column; align-items: flex-start; padding: 10px 0; }
+            .header-content .nav-menu { display: none; } /* Hide desktop menu */
+            .header-content.mobile-active .nav-menu { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; background: var(--primary-color); width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .nav-item { margin: 0; width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); }
+            .nav-link { padding: 15px 20px; width: 100%; justify-content: space-between; }
+            .dropdown { position: static; box-shadow: none; border: none; background: var(--secondary-color); padding-left: 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+            .nav-item.dropdown-active > .dropdown { max-height: 500px; /* Or a large enough value */ }
         }
         @media (max-width: 768px) {
             .article-title { font-size: 32px; }
@@ -156,9 +169,10 @@
     <header class="header">
         <div class="header-content">
             <div class="site-title"><a href="/index.html"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo"></a></div>
-            <nav>
+            <nav id="navContainer">
                 <ul class="nav-menu" id="categoryNav"></ul>
             </nav>
+            <button class="mobile-nav-toggle" aria-label="Open navigation menu"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
@@ -282,7 +296,7 @@
         }
         
         async function fetchRelatedArticles(categoryId, currentArticleId) {
-            const { data: related } = await supabaseClient.from('posts').select(`slug, title, image_url, excerpt, authors(full_name, avatar_url)`).eq('category_id', categoryId).neq('id', currentArticleId).order('created_at', { ascending: false }).limit(3);
+            const { data: related } = await supabaseClient.from('posts').select(`slug, title, image_url, excerpt, authors(id, full_name, avatar_url)`).eq('category_id', categoryId).neq('id', currentArticleId).order('created_at', { ascending: false }).limit(3);
             const section = document.getElementById('relatedArticlesSection');
             if (related && related.length > 0) {
                 section.innerHTML = `
@@ -293,6 +307,7 @@
                                 <img src="${article.image_url || 'https://via.placeholder.com/400x200'}" alt="${article.title}">
                                 <div class="related-card-content">
                                     <h5>${article.title}</h5>
+                                    <div class="related-excerpt">${article.excerpt ? article.excerpt.substring(0, 100) + '...' : ''}</div>
                                     <div class="related-card-author">
                                         <img src="${article.authors.avatar_url || 'https://via.placeholder.com/30'}" alt="${article.authors.full_name}">
                                         <span>${article.authors.full_name}</span>
@@ -320,7 +335,6 @@
         }
 
         async function fetchDynamicMenus() {
-            // Header Nav with Submenus
             const { data: categories } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
             const nav = document.getElementById('categoryNav');
             const footerNav = document.getElementById('footerCategoryNav');
@@ -335,13 +349,14 @@
                 let footerNavHtml = ``;
 
                 navItems.forEach(item => {
+                    const hasSubmenu = item.subcategories.length > 0;
                     navHtml += `
-                        <li class="nav-item">
+                        <li class="nav-item ${hasSubmenu ? 'has-dropdown' : ''}">
                             <a href="/index.html?categories=${item.category.slug}" class="nav-link">
                                 ${item.category.name}
-                                ${item.subcategories.length > 0 ? '<i class="fas fa-chevron-down fa-xs"></i>' : ''}
+                                ${hasSubmenu ? '<i class="fas fa-chevron-down fa-xs"></i>' : ''}
                             </a>
-                            ${item.subcategories.length > 0 ? `<div class="dropdown">${item.subcategories.map(sub => `<a href="/index.html?categories=${sub.slug}" class="dropdown-item">${sub.name}</a>`).join('')}</div>` : ''}
+                            ${hasSubmenu ? `<div class="dropdown">${item.subcategories.map(sub => `<a href="/index.html?categories=${sub.slug}" class="dropdown-item">${sub.name}</a>`).join('')}</div>` : ''}
                         </li>`;
                     footerNavHtml += `<li><a href="/index.html?categories=${item.category.slug}">${item.category.name}</a></li>`;
                 });
@@ -351,12 +366,32 @@
                 if (footerNav) footerNav.innerHTML = footerNavHtml;
             }
 
-            // Footer Support Links
             const { data: links } = await supabaseClient.from('footer_links').select('title, url').order('title');
             const supportNav = document.getElementById('footerSupportNav');
             if (links && supportNav) {
                 supportNav.innerHTML = links.map(l => `<li><a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.title}</a></li>`).join('');
             }
+        }
+
+        function setupMobileNav() {
+            const toggleBtn = document.querySelector('.mobile-nav-toggle');
+            const navContainer = document.getElementById('navContainer');
+            
+            toggleBtn.addEventListener('click', () => {
+                navContainer.classList.toggle('active');
+            });
+
+            // Handle dropdowns on mobile
+            const dropdownItems = document.querySelectorAll('.has-dropdown > a');
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 992) {
+                        e.preventDefault(); // Prevent navigation on tap
+                        const parent = item.parentElement;
+                        parent.classList.toggle('dropdown-active');
+                    }
+                });
+            });
         }
         
         function setupTableOfContents() {
@@ -378,28 +413,25 @@
                 heading.id = id;
                 const level = heading.tagName === 'H2' ? 1 : 2;
                 
-                tocHtml += `<li class="toc-level-${level}"><a href="#${id}">${heading.textContent}</a></li>`;
-                activeHeadings.set(heading, tocContainer.querySelector(`a[href="#${id}"]`));
+                const listItem = document.createElement('li');
+                listItem.className = `toc-level-${level}`;
+                const link = document.createElement('a');
+                link.href = `#${id}`;
+                link.textContent = heading.textContent;
+                listItem.appendChild(link);
+                tocContainer.querySelector('ul').appendChild(listItem);
+                activeHeadings.set(heading, link);
             });
-            tocHtml += '</ul>';
-            tocContainer.innerHTML = tocHtml;
-
-            // Active link highlighting on scroll
+            tocContainer.insertAdjacentHTML('afterbegin', '<h4>In This Article</h4><ul></ul>');
+            
             const observer = new IntersectionObserver(entries => {
-                let visibleHeadings = [];
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        visibleHeadings.push(entry.target);
-                    }
-                });
-
-                activeHeadings.forEach(link => link.classList.remove('active'));
-                if (visibleHeadings.length > 0) {
-                    const topMostVisible = visibleHeadings.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
-                    activeHeadings.get(topMostVisible).classList.add('active');
-                }
-
-            }, { rootMargin: "0px 0px -50% 0px" });
+                 activeHeadings.forEach(link => link.classList.remove('active'));
+                 const visible = entries.filter(e => e.isIntersecting);
+                 if (visible.length > 0) {
+                     const link = activeHeadings.get(visible[0].target);
+                     if (link) link.classList.add('active');
+                 }
+            }, { rootMargin: "0px 0px -80% 0px" });
 
             headings.forEach(h => observer.observe(h));
         }
@@ -408,7 +440,7 @@
             window.addEventListener('scroll', () => {
                 const scrollTop = window.scrollY;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPercent = (scrollTop / docHeight) * 100;
+                const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
                 progressBar.style.transform = `scaleX(${scrollPercent / 100})`;
                 
                 if (window.scrollY > 300) {
@@ -440,6 +472,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchDynamicMenus();
+            setupMobileNav();
             if (postSlug) { fetchArticle(); } 
             else { articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>No article specified.</p><a href="/index.html">Return to Homepage</a></div>`; }
         });
