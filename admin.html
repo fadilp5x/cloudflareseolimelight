@@ -60,7 +60,7 @@
         #listContainer th, #listContainer td { padding: 1rem; border-bottom: 1px solid var(--border-color); text-align: left; vertical-align: middle; }
         #listContainer th { font-weight: 600; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
         .sortable-ghost { opacity: 0.4; }
-        .drag-handle { cursor: move; color: var(--text-muted); }
+        .drag-handle { cursor: move; color: var(--text-muted); padding-right: 1rem; }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; }
@@ -96,7 +96,6 @@
             </header>
             
             <div id="dashboardView"></div>
-            
             <section id="listContainer" class="card" style="display: none;"></section>
             <section id="formContainer" class="card card-body" style="display: none;"></section>
         </main>
@@ -175,8 +174,17 @@
                     content = `<div class="card-header"><h2>Posts</h2></div><table><thead><tr><th>Order</th><th>Title</th><th>Author</th><th>Category</th><th>Actions</th></tr></thead><tbody id="postsTableBody">`;
                     content += data.map(p => `<tr data-id="${p.id}"><td><i class="fas fa-grip-vertical drag-handle"></i></td><td>${p.title}</td><td>${p.authors?.full_name || 'N/A'}</td><td>${p.categories?.name || 'N/A'}</td><td><button class="btn btn-secondary" onclick="editItem('${p.id}')">Edit</button> <button class="btn btn-danger" onclick="deleteItem('${p.id}')">Delete</button></td></tr>`).join('');
                     content += `</tbody></table>`;
+                } else if (currentView === 'categories') {
+                    const { data } = await supabaseClient.from('categories').select(`*, parent:parent_id(name)`).order('name');
+                    content = `<div class="card-header"><h2>Categories</h2></div><table><thead><tr><th>Name</th><th>Slug</th><th>Parent</th><th>Actions</th></tr></thead><tbody>`;
+                    content += data.map(c => `<tr><td>${c.name}</td><td>${c.slug}</td><td>${c.parent?.name || 'None'}</td><td><button class="btn btn-secondary" onclick="editItem('${c.id}')">Edit</button> <button class="btn btn-danger" onclick="deleteItem('${c.id}')">Delete</button></td></tr>`).join('');
+                    content += `</tbody></table>`;
+                } else if (currentView === 'authors') {
+                    const { data } = await supabaseClient.from('authors').select(`*`).order('full_name');
+                    content = `<div class="card-header"><h2>Authors</h2></div><table><thead><tr><th>Name</th><th>Bio</th><th>Actions</th></tr></thead><tbody>`;
+                    content += data.map(a => `<tr><td>${a.full_name}</td><td>${a.bio ? a.bio.substring(0, 100) + '...' : 'N/A'}</td><td><button class="btn btn-secondary" onclick="editItem('${a.id}')">Edit</button> <button class="btn btn-danger" onclick="deleteItem('${a.id}')">Delete</button></td></tr>`).join('');
+                    content += `</tbody></table>`;
                 }
-                // ... other views (categories, authors) remain the same
             } catch (error) {
                 showNotification('Error loading data: ' + error.message, 'error');
             } finally {
@@ -184,6 +192,7 @@
                 if (currentView === 'posts') {
                     const tbody = document.getElementById('postsTableBody');
                     if (tbody) {
+                        if (postsSortable) postsSortable.destroy();
                         postsSortable = Sortable.create(tbody, { animation: 150, ghostClass: 'sortable-ghost', handle: '.drag-handle', onEnd: updatePostOrder });
                     }
                 }
@@ -198,12 +207,11 @@
             );
             try {
                 const results = await Promise.all(updates);
-                results.forEach(result => {
-                    if (result.error) throw result.error;
-                });
+                results.forEach(result => { if (result.error) throw result.error; });
                 showNotification('Post order updated successfully!');
             } catch (error) {
                 showNotification('Error updating post order: ' + error.message, 'error');
+                loadData(); // Revert to original order on error
             } finally {
                 hideLoader();
             }
@@ -212,45 +220,109 @@
         async function renderForm(data = {}) {
             showLoader();
             let formHtml = '';
-            // ... form generation logic is the same ...
-            formContainer.innerHTML = formHtml;
-
-            if (currentView === 'posts') {
-                Quill.register('modules/imageResize', ImageResize);
-                quill = new Quill('#editor', {
-                    theme: 'snow',
-                    modules: {
-                        imageResize: { displaySize: true },
-                        toolbar: [
-                            [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline', 'strike'],
-                            ['blockquote', 'code-block'], [{'list': 'ordered'}, {'list': 'bullet'}],
-                            [{ 'align': [] }], ['link', 'image'], ['clean']
-                        ]
-                    }
-                });
-                 document.getElementById('image_upload').addEventListener('change', handleImageUpload);
+            try {
+                if (currentView === 'posts') {
+                    const { data: authors } = await supabaseClient.from('authors').select('id, full_name');
+                    const { data: categories } = await supabaseClient.from('categories').select('id, name');
+                    formHtml = `<form id="post-form"><div class="form-group"><label for="title">Title</label><input type="text" id="title" value="${data.title || ''}" required></div><div class="form-group"><label for="slug">Slug</label><input type="text" id="slug" value="${data.slug || ''}" required></div><div class="form-group"><label for="excerpt">Excerpt</label><textarea id="excerpt">${data.excerpt || ''}</textarea></div><div class="form-group"><label>Content</label><div id="editor">${data.content || ''}</div></div><div class="form-group"><label for="image_upload">Featured Image</label><input type="file" id="image_upload" accept="image/*"><input type="hidden" id="image_url" value="${data.image_url || ''}"></div><div class="form-group"><label for="author_id">Author</label><select id="author_id">${authors.map(a => `<option value="${a.id}" ${data.author_id === a.id ? 'selected' : ''}>${a.full_name}</option>`).join('')}</select></div><div class="form-group"><label for="category_id">Category</label><select id="category_id">${categories.map(c => `<option value="${c.id}" ${data.category_id === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div><div class="form-actions"><button type="submit" class="btn btn-primary">Save</button><button type="button" class="btn btn-secondary" onclick="hideForm()">Cancel</button></div></form>`;
+                } 
+                // ... other views (authors, categories)
+            } catch (error) {
+                showNotification('Error building form: ' + error.message, 'error');
+            } finally {
+                formContainer.innerHTML = formHtml;
+                
+                if (currentView === 'posts') {
+                    Quill.register('modules/imageResize', ImageResize, true);
+                    quill = new Quill('#editor', {
+                        theme: 'snow',
+                        modules: {
+                            imageResize: { displaySize: true },
+                            toolbar: [
+                                [{'header': [1, 2, 3, false]}], ['bold', 'italic', 'underline', 'strike'],
+                                ['blockquote', 'code-block'], [{'list': 'ordered'}, {'list': 'bullet'}],
+                                [{'align': []}], ['link', 'image'], ['clean']
+                            ]
+                        }
+                    });
+                    document.getElementById('image_upload').addEventListener('change', handleImageUpload);
+                    document.getElementById('post-form').addEventListener('submit', saveItem);
+                }
+                hideLoader();
+                showForm();
             }
-            hideLoader();
-            showForm();
         }
 
         async function handleImageUpload(e) {
-            // This function will be replaced by the Cloudinary logic provided below.
-            showNotification('Please configure Cloudinary upload first.', 'error');
+            // This is the placeholder for your Cloudinary logic.
+            showNotification('Cloudinary upload needs to be configured.', 'error');
         }
 
-        async function saveItem() {
+        async function saveItem(e) {
+            e.preventDefault();
             showLoader();
-            // ... save logic is the same ...
-            hideLoader();
+            try {
+                if (currentView === 'posts') {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = quill.root.innerHTML;
+                    const itemData = {
+                        title: document.getElementById('title').value,
+                        slug: document.getElementById('slug').value,
+                        excerpt: document.getElementById('excerpt').value,
+                        content: quill.root.innerHTML,
+                        word_count: tempDiv.innerText.split(/\s+/).filter(Boolean).length,
+                        image_url: document.getElementById('image_url').value,
+                        author_id: document.getElementById('author_id').value,
+                        category_id: document.getElementById('category_id').value
+                    };
+
+                    let response;
+                    if (editingId) {
+                        response = await supabaseClient.from('posts').update(itemData).eq('id', editingId);
+                    } else {
+                        const { data: maxOrder } = await supabaseClient.from('posts').select('order_index').order('order_index', { ascending: false }).limit(1).single();
+                        itemData.order_index = (maxOrder?.order_index ?? -1) + 1;
+                        response = await supabaseClient.from('posts').insert([itemData]);
+                    }
+
+                    if (response.error) throw response.error;
+                    showNotification(`Post ${editingId ? 'updated' : 'created'}!`);
+                    switchView('posts');
+                }
+                // ... other save logic
+            } catch(error) {
+                showNotification('Error saving: ' + error.message, 'error');
+            } finally {
+                hideLoader();
+            }
         }
 
         async function deleteItem(id) {
             if (confirm('Are you sure?')) {
                 showLoader();
-                // ... delete logic is the same ...
-                hideLoader();
+                try {
+                    const { error } = await supabaseClient.from(currentView).delete().eq('id', id);
+                    if (error) throw error;
+                    showNotification('Item deleted successfully');
+                    await loadData();
+                } catch (error) {
+                    showNotification('Error deleting: ' + error.message, 'error');
+                } finally {
+                    hideLoader();
+                }
             }
+        }
+
+        async function editItem(id) {
+            editingId = id;
+            showLoader();
+            const { data, error } = await supabaseClient.from(currentView).select('*').eq('id', id).single();
+            hideLoader();
+            if (error) {
+                showNotification('Error fetching item: ' + error.message, 'error');
+                return;
+            }
+            await renderForm(data);
         }
 
         navLinks.forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); switchView(e.target.closest('.nav-link').dataset.view); }));
