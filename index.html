@@ -13,7 +13,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-color: #fff; --secondary-color: #f8f9fa; --accent-color: #8B4513; --text-color: #333; --light-gray: #e9ecef; --border-color: #dee2e6; --tag-bg: #f8f0f5; --tag-text: #9c27b0; --btn-bg: #9c27b0; --btn-hover: #7b1fa2; --card-shadow: 0 4px 12px rgba(0,0,0,0.08); --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12); --transition-speed: 0.3s; --footer-bg: #1a1a1a; --footer-text: #ccc; }
+        :root { 
+            --primary-color: #fff; 
+            --secondary-color: #f8f9fa; 
+            --accent-color: #8B4513; 
+            --text-color: #333; 
+            --light-gray: #e9ecef; 
+            --border-color: #dee2e6; 
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12); 
+            --transition-speed: 0.3s; 
+            --footer-bg: #1a1a1a; 
+            --footer-text: #ccc; 
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.6; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -46,7 +58,17 @@
         .carousel-slide.active { opacity: 1; z-index: 1; }
         .carousel-image { width: 100%; height: 100%; object-fit: cover; }
         .carousel-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 40px 30px 30px; color: white; }
-        .category-tag { display: inline-block; background-color: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; margin-bottom: 10px; }
+        .category-tag {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .category-tag:hover {
+            text-decoration: underline;
+        }
         .carousel-title { font-size: 28px; font-family: 'Playfair Display', serif; }
         .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border-radius: 50%; }
         .carousel-prev { left: 20px; }
@@ -58,12 +80,75 @@
         .carousel-progress-bar-inner { height: 100%; width: 0; background-color: #87CEEB; }
         .carousel-progress-bar-inner.is-animating { transition: width 5s linear; }
         .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
-        .article-card { background-color: white; border: 1px solid var(--border-color); transition: all var(--transition-speed) ease; animation: fadeIn 0.5s ease forwards; opacity: 0; display: flex; flex-direction: column; }
-        .article-card:hover { box-shadow: var(--card-hover-shadow); }
+        .article-card { 
+            background-color: white; 
+            border: 1px solid var(--border-color); 
+            transition: all var(--transition-speed) ease; 
+            animation: fadeIn 0.5s ease forwards; 
+            opacity: 0; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: var(--card-shadow); 
+        }
+        .article-card:hover { 
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow); 
+        }
+        .article-card:hover .card-image-wrapper img {
+            transform: scale(1.05);
+        }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .card-image { width: 100%; height: 200px; object-fit: cover; }
-        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title { font-size: 18px; font-weight: 500; margin: 12px 0 10px; flex-grow: 1; }
+        .card-image-wrapper {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .card-content { 
+            padding: 20px; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .card-title { font-size: 18px; font-weight: 500; margin: 12px 0 10px; }
+        .card-author { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 14px; 
+            color: #555; 
+            margin-top: auto;
+            padding-top: 15px;
+        }
+        .author-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        .card-excerpt {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            position: relative;
+            max-height: 80px;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+        .card-excerpt::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px; 
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+        }
+        .card-meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
         .load-more-container { text-align: center; margin: 40px 0; }
         .load-more-btn { display: inline-block; padding: 12px 30px; background-color: var(--btn-bg); color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
         .page-title { text-align: center; margin-bottom: 2rem; font-family: 'Playfair Display', serif; font-size: 2rem; }
@@ -155,7 +240,7 @@
         }
 
         async function fetchFeaturedPosts() {
-            const { data, error } = await supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name)`).eq('is_featured', true).order('created_at', { ascending: false }).limit(5);
+            const { data, error } = await supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name, avatar_url)`).eq('is_featured', true).order('created_at', { ascending: false }).limit(5);
             if (error) { console.error('Error fetching featured posts:', error); return; }
             featuredPosts = data;
             renderCarousel();
@@ -166,7 +251,7 @@
             if (!loadMore) { currentPage = 1; articlesGrid.innerHTML = ''; }
             showLoading();
             const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
-            let query = supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name)`, { count: 'exact' });
+            let query = supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name, avatar_url)`, { count: 'exact' });
             if (categorySlug) {
                 const { data: categoryData } = await supabaseClient.from('categories').select('id').eq('slug', categorySlug).single();
                 if (categoryData) query = query.eq('category_id', categoryData.id);
@@ -184,7 +269,7 @@
 
         function renderCarousel() {
             if (!featuredPosts || featuredPosts.length === 0) return;
-            document.getElementById('carouselContainer').innerHTML = featuredPosts.map(post => `<div class="carousel-slide"><a href="/article/${post.slug}"><img src="${post.image_url}" alt="${post.title}" class="carousel-image"></a><div class="carousel-overlay"><a href="/index.html?categories=${post.categories.slug}" class="category-tag">${post.categories.name}</a><h2 class="carousel-title"><a href="/article/${post.slug}" style="color: white;">${post.title}</a></h2><p class="carousel-date">${new Date(post.created_at).toLocaleDateString()}</p></div></div>`).join('');
+            document.getElementById('carouselContainer').innerHTML = featuredPosts.map(post => `<div class="carousel-slide"><a href="/article/${post.slug}"><img src="${post.image_url}" alt="${post.title}" class="carousel-image"></a><div class="carousel-overlay"><a href="/index.html?categories=${post.categories.slug}" class="category-tag">${post.categories.name}</a><h2 class="carousel-title"><a href="/article/${post.slug}" style="color: white;">${post.title}</a></h2></div></div>`).join('');
             if (featuredPosts.length > 1) {
                 document.getElementById('carouselIndicators').innerHTML = featuredPosts.map((_, i) => `<div class="indicator" data-slide-to="${i}"></div>`).join('');
                 document.querySelector('.carousel-slide').classList.add('active');
@@ -196,10 +281,29 @@
             if (!append) articlesGrid.innerHTML = '';
             posts.forEach((post, i) => {
                 const card = document.createElement('a');
-                card.href = `/article/${post.slug}`; // <-- UPDATED LINK
+                card.href = `/article/${post.slug}`;
                 card.className = 'article-card';
                 card.style.animationDelay = `${i * 0.1}s`;
-                card.innerHTML = `<img src="${post.image_url || 'https://via.placeholder.com/400x200'}" alt="${post.title}" class="card-image" loading="lazy"><div class="card-content"><span class="category-tag">${post.categories.name}</span><h3 class="card-title">${post.title}</h3><p class="card-author"><i class="fas fa-user"></i> ${post.authors.full_name}</p></div>`;
+
+                // Calculate reading time
+                const wordsPerMinute = 200;
+                const wordCount = post.word_count || 0;
+                const readingTime = Math.ceil(wordCount / wordsPerMinute);
+
+                card.innerHTML = `
+                    <div class="card-image-wrapper">
+                        <img src="${post.image_url || 'https://via.placeholder.com/400x200'}" alt="${post.title}" class="card-image" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <a href="/index.html?categories=${post.categories.slug}" class="category-tag" onclick="event.stopPropagation()">${post.categories.name}</a>
+                        <h3 class="card-title">${post.title}</h3>
+                        <div class="card-meta">${readingTime} min read</div>
+                        <div class="card-excerpt">${post.excerpt || ''}</div>
+                        <div class="card-author">
+                            <img src="${post.authors.avatar_url || 'https://via.placeholder.com/30'}" alt="${post.authors.full_name}" class="author-avatar">
+                            <span>${post.authors.full_name}</span>
+                        </div>
+                    </div>`;
                 articlesGrid.appendChild(card);
             });
         }
