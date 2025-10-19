@@ -54,6 +54,7 @@
         .main-header h1 { font-size: 1.8rem; margin: 0; }
         .btn { border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: all 0.2s ease; }
         .btn-primary { background-color: var(--primary); color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
         .card { background: var(--bg-white); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--card-shadow); margin-bottom: 1.5rem; }
         .card-body { padding: 2rem; }
         #listContainer table { width: 100%; border-collapse: collapse; }
@@ -71,6 +72,37 @@
         .notification.show { transform: translateX(0); }
         .notification.success { background-color: var(--success); }
         .notification.error { background-color: var(--danger); }
+        /* Preview Modal Styles */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 800px;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-title { font-size: 1.5rem; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        .preview-section { margin-bottom: 2rem; }
+        .preview-section h4 { margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        .google-preview { font-family: Arial, sans-serif; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; }
+        .google-preview-title { color: #1a0dab; font-size: 20px; text-decoration: none; }
+        .google-preview-url { color: #006621; font-size: 14px; }
+        .google-preview-description { color: #545454; font-size: 14px; }
+        .social-preview {
+            border: 1px solid #ccc; border-radius: 8px; max-width: 500px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .social-preview-image { width: 100%; height: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+        .social-preview-content { padding: 1rem; }
+        .social-preview-title { font-weight: bold; font-size: 1rem; }
+        .social-preview-description { font-size: 0.9rem; color: #657786; }
+        .newsletter-preview { border: 1px solid #ddd; padding: 1.5rem; background-color: #f9f9f9; }
+        .newsletter-preview-image { max-width: 100%; margin-bottom: 1rem; }
+        .newsletter-preview-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .newsletter-preview-excerpt { color: #555; }
     </style>
 </head>
 <body>
@@ -102,6 +134,43 @@
     </div>
 
     <div id="notification" class="notification"></div>
+    
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Omni-channel Preview</h3>
+                <button class="modal-close" onclick="closePreviewModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-section">
+                    <h4>Google Search Result</h4>
+                    <div class="google-preview">
+                        <a href="#" class="google-preview-title" id="googleTitle"></a>
+                        <div class="google-preview-url" id="googleUrl"></div>
+                        <p class="google-preview-description" id="googleDescription"></p>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <h4>Social Media (Twitter/Facebook)</h4>
+                    <div class="social-preview">
+                        <img src="" alt="Featured Image Preview" class="social-preview-image" id="socialImage">
+                        <div class="social-preview-content">
+                            <div class="social-preview-title" id="socialTitle"></div>
+                            <div class="social-preview-description" id="socialDescription"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <h4>Email Newsletter</h4>
+                    <div class="newsletter-preview">
+                        <img src="" alt="Featured Image Preview" class="newsletter-preview-image" id="newsletterImage">
+                        <h2 class="newsletter-preview-title" id="newsletterTitle"></h2>
+                        <p class="newsletter-preview-excerpt" id="newsletterExcerpt"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
@@ -202,12 +271,16 @@
         
         async function updatePostOrder(evt) {
             showLoader();
-            const updates = Array.from(evt.to.children).map((row, index) => 
-                supabaseClient.from('posts').update({ order_index: index }).eq('id', row.dataset.id)
-            );
+            const rows = Array.from(evt.to.children);
             try {
-                const results = await Promise.all(updates);
-                results.forEach(result => { if (result.error) throw result.error; });
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const id = row.dataset.id;
+                    const { error } = await supabaseClient.from('posts').update({ order_index: i }).eq('id', id);
+                    if (error) {
+                        throw error;
+                    }
+                }
                 showNotification('Post order updated successfully!');
             } catch (error) {
                 showNotification('Error updating post order: ' + error.message, 'error');
@@ -224,7 +297,7 @@
                 if (currentView === 'posts') {
                     const { data: authors } = await supabaseClient.from('authors').select('id, full_name');
                     const { data: categories } = await supabaseClient.from('categories').select('id, name');
-                    formHtml = `<form id="post-form"><div class="form-group"><label for="title">Title</label><input type="text" id="title" value="${data.title || ''}" required></div><div class="form-group"><label for="slug">Slug</label><input type="text" id="slug" value="${data.slug || ''}" required></div><div class="form-group"><label for="excerpt">Excerpt</label><textarea id="excerpt">${data.excerpt || ''}</textarea></div><div class="form-group"><label>Content</label><div id="editor">${data.content || ''}</div></div><div class="form-group"><label for="image_upload">Featured Image</label><input type="file" id="image_upload" accept="image/*"><input type="hidden" id="image_url" value="${data.image_url || ''}"></div><div class="form-group"><label for="author_id">Author</label><select id="author_id">${authors.map(a => `<option value="${a.id}" ${data.author_id === a.id ? 'selected' : ''}>${a.full_name}</option>`).join('')}</select></div><div class="form-group"><label for="category_id">Category</label><select id="category_id">${categories.map(c => `<option value="${c.id}" ${data.category_id === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div><div class="form-actions"><button type="submit" class="btn btn-primary">Save</button><button type="button" class="btn btn-secondary" onclick="hideForm()">Cancel</button></div></form>`;
+                    formHtml = `<form id="post-form"><div class="form-group"><label for="title">Title</label><input type="text" id="title" value="${data.title || ''}" required></div><div class="form-group"><label for="slug">Slug</label><input type="text" id="slug" value="${data.slug || ''}" required></div><div class="form-group"><label for="excerpt">Excerpt</label><textarea id="excerpt">${data.excerpt || ''}</textarea></div><div class="form-group"><label>Content</label><div id="editor">${data.content || ''}</div></div><div class="form-group"><label for="image_upload">Featured Image</label><input type="file" id="image_upload" accept="image/*"><input type="hidden" id="image_url" value="${data.image_url || ''}"></div><div class="form-group"><label for="author_id">Author</label><select id="author_id">${authors.map(a => `<option value="${a.id}" ${data.author_id === a.id ? 'selected' : ''}>${a.full_name}</option>`).join('')}</select></div><div class="form-group"><label for="category_id">Category</label><select id="category_id">${categories.map(c => `<option value="${c.id}" ${data.category_id === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}</select></div><div class="form-actions"><button type="submit" class="btn btn-primary">Save</button><button type="button" class="btn btn-secondary" onclick="hideForm()">Cancel</button><button type="button" class="btn btn-info" onclick="openPreviewModal()">Preview</button></div></form>`;
                 } 
                 // ... other views (authors, categories)
             } catch (error) {
@@ -252,6 +325,36 @@
                 showForm();
             }
         }
+        
+        // --- Preview Modal Functions ---
+        function openPreviewModal() {
+            const title = document.getElementById('title').value;
+            const slug = document.getElementById('slug').value;
+            const excerpt = document.getElementById('excerpt').value;
+            const imageUrl = document.getElementById('image_url').value;
+
+            // Google Preview
+            document.getElementById('googleTitle').textContent = title;
+            document.getElementById('googleUrl').textContent = `https://yourwebsite.com/article/${slug}`;
+            document.getElementById('googleDescription').textContent = excerpt;
+
+            // Social Media Preview
+            document.getElementById('socialImage').src = imageUrl || 'https://via.placeholder.com/500x261';
+            document.getElementById('socialTitle').textContent = title;
+            document.getElementById('socialDescription').textContent = excerpt;
+            
+            // Newsletter Preview
+            document.getElementById('newsletterImage').src = imageUrl || 'https://via.placeholder.com/600x300';
+            document.getElementById('newsletterTitle').textContent = title;
+            document.getElementById('newsletterExcerpt').textContent = excerpt;
+
+            document.getElementById('previewModal').style.display = 'flex';
+        }
+
+        function closePreviewModal() {
+            document.getElementById('previewModal').style.display = 'none';
+        }
+
 
         async function handleImageUpload(e) {
             // This is the placeholder for your Cloudinary logic.
