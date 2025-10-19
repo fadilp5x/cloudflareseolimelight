@@ -29,6 +29,7 @@
             --text-color: #333;
             --light-gray: #e9ecef;
             --border-color: #dee2e6;
+            --tag-text: #9c27b0;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
             --footer-bg: #1a1a1a;
             --footer-text: #ccc;
@@ -37,18 +38,21 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.7; }
         .page-wrapper { display: flex; justify-content: center; }
-        .main-container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 1fr 800px 1fr; gap: 2rem; padding: 0 20px; }
+        .main-container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 150px 800px 1fr; gap: 3rem; padding: 0 20px; }
         .left-sidebar, .right-sidebar { padding-top: 120px; }
         .sticky-sidebar-item { position: sticky; top: 120px; }
         a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
         a:hover { color: var(--accent-color); }
-        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background-color: var(--accent-color); z-index: 10000; }
         .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background-color: var(--primary-color); z-index: 100; }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .site-title img { max-height: 65px; width: auto; }
         .nav-menu { display: flex; list-style: none; align-items: center; }
         .nav-item { margin: 0 15px; position: relative; }
-        .nav-link { font-weight: 500; }
+        .nav-link { font-weight: 500; display: flex; align-items: center; gap: 5px; }
+        .dropdown { position: absolute; top: 100%; left: 0; background: white; min-width: 200px; box-shadow: var(--card-shadow); border-radius: 6px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 100; border: 1px solid var(--border-color); }
+        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 10px 15px; color: var(--text-color); transition: background-color 0.2s; }
+        .dropdown-item:hover { background-color: var(--light-gray); }
         
         /* Article Styles */
         .article-page { margin: 40px 0; }
@@ -62,16 +66,27 @@
         .article-body p { margin-bottom: 20px; text-align: justify; }
         .article-body h2, .article-body h3 { font-family: 'Playfair Display', serif; margin: 40px 0 20px; color: var(--accent-color); }
         .article-body h2 { font-size: 28px; }
+        .article-body blockquote { border-left: 4px solid var(--tag-text); padding-left: 20px; margin: 20px 0; font-style: italic; color: #555; font-size: 20px; }
+        .article-body img { max-width: 100%; height: auto; margin: 20px 0; }
         
         /* Floating Social Share Bar */
         .floating-share { display: flex; flex-direction: column; gap: 15px; align-items: center; }
         .floating-share .share-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; }
-        .floating-share a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border-color); transition: all 0.3s; }
-        .floating-share a:hover { background-color: var(--secondary-color); transform: scale(1.1); }
+        .floating-share a { font-size: 18px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s; }
+        .floating-share a:hover { transform: scale(1.15); }
+        .share-fb { color: #1877F2; } .share-tw { color: #1DA1F2; } .share-wa { color: #25D366; } .share-em { color: #777; }
         
+        /* Author Box (Moved Up) */
+        .author-bio-box { border: 1px solid #000; padding: 30px; text-align: center; margin: 60px 0 40px 0; }
+        .author-bio-box .author-title { text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 20px; }
+        .author-bio-box img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+        .author-bio-box h4 { font-family: 'Playfair Display', serif; font-size: 22px; }
+        .author-bio-box p { font-size: 15px; color: #666; max-width: 600px; margin: 10px auto 0; }
+
         /* Bottom Share & Related */
-        .bottom-share-bar { display: flex; align-items: center; gap: 15px; margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid var(--border-color); }
-        .bottom-share-bar a { font-size: 20px; }
+        .bottom-share-bar { display: flex; align-items: center; gap: 20px; margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid var(--border-color); }
+        .bottom-share-bar span { font-weight: 500; }
+        .bottom-share-bar a { font-size: 22px; }
         .related-articles { margin: 40px 0; }
         .related-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 20px; }
         .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -79,20 +94,19 @@
         .related-card img { width: 100%; height: 120px; object-fit: cover; }
         .related-card h5 { padding: 15px; font-size: 15px; font-weight: 500; }
         
-        /* New Author Box */
-        .author-bio-box { border: 1px solid #000; padding: 30px; text-align: center; margin: 60px 0; }
-        .author-bio-box .author-title { text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 20px; }
-        .author-bio-box img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
-        .author-bio-box h4 { font-family: 'Playfair Display', serif; font-size: 22px; }
-        .author-bio-box p { font-size: 15px; color: #666; max-width: 600px; margin: 10px auto 0; }
-        
-        /* New Footer */
-        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 40px 20px; }
-        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .footer-logo img { max-height: 40px; filter: brightness(0) invert(1); }
-        .footer-info { display: flex; align-items: center; gap: 20px; font-size: 14px; }
-        .footer-socials { display: flex; align-items: center; gap: 20px; }
-        .footer-socials a { color: white; font-size: 18px; }
+        /* Restored Footer */
+        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px 40px 20px; border-bottom: 1px solid #444; }
+        .footer-about .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: white; margin-bottom: 15px; }
+        .footer-links h4 { font-size: 18px; color: white; margin-bottom: 20px; }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul a { color: var(--footer-text); transition: color 0.2s; }
+        .footer-links ul a:hover { color: white; }
+        #footerSubscribeForm { display: flex; }
+        #footerSubscribeForm input { flex-grow: 1; border: none; padding: 12px; background-color: #333; color: white; }
+        #footerSubscribeForm button { border: none; background-color: var(--accent-color); color: white; padding: 0 20px; cursor: pointer; }
+        .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
 
         /* Responsive */
         @media (max-width: 1200px) {
@@ -101,11 +115,12 @@
         @media (max-width: 992px) {
             .main-container { grid-template-columns: 1fr; }
             .left-sidebar, .right-sidebar { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 768px) {
             .article-title { font-size: 32px; }
             .related-grid { grid-template-columns: 1fr; }
-            .footer-content { flex-direction: column; text-align: center; }
+            .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -125,9 +140,10 @@
                 <div class="sticky-sidebar-item">
                     <div class="floating-share">
                         <span class="share-title">Share</span>
-                        <a href="#" id="shareFacebook" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" id="shareTwitter" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" id="shareEmail" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
+                        <a href="#" id="shareFacebook" class="share-fb" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" id="shareTwitter" class="share-tw" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" id="shareWhatsapp" class="share-wa" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" id="shareEmail" class="share-em" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
             </aside>
@@ -141,16 +157,30 @@
     </div>
 
     <footer class="site-footer">
-        <div class="footer-content">
-            <a href="https://thelimelightonline.in" class="footer-logo"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Logo"></a>
-            <div class="footer-info">
-                <span>© 2025 The Limelight</span>
-                <a href="mailto:thelimelightin@gmail.com">thelimelightin@gmail.com</a>
-                <a href="https://thelimelightonline.in">thelimelightonline.in</a>
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h3 class="footer-logo">THE LIMELIGHT</h3>
+                <p>Insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p>
             </div>
-            <div class="footer-socials">
-                <a href="https://www.instagram.com/the_limelight_bimonthly/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <div class="footer-links">
+                <h4>Categories</h4>
+                <ul id="footerCategoryNav"></ul>
             </div>
+            <div class="footer-links">
+                <h4>Help & Support</h4>
+                <ul id="footerSupportNav"></ul>
+            </div>
+            <div class="footer-subscribe">
+                <h4>Email Newsletter</h4>
+                <p>Subscribe for notifications on exclusive posts.</p>
+                <form id="footerSubscribeForm">
+                    <input type="email" placeholder="Your Email" required>
+                    <button type="submit">SUBSCRIBE</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2025. The Limelight Online. All rights reserved.</p>
         </div>
     </footer>
 
@@ -191,16 +221,6 @@
                 </div>
                 <img src="${article.image_url}" alt="${article.title}" class="featured-image">
                 <div class="article-body">${article.content}</div>
-                
-                <div class="bottom-share-bar">
-                    <span>Share:</span>
-                    <a href="#" id="bottomShareFacebook" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" id="bottomShareTwitter" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" id="bottomShareEmail" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
-                    <a href="javascript:window.print()" style="margin-left: auto;" aria-label="Print Article"><i class="fas fa-print"></i></a>
-                </div>
-                
-                <section class="related-articles" id="relatedArticlesSection"></section>
 
                 <div class="author-bio-box">
                     <div class="author-title">Author</div>
@@ -210,6 +230,17 @@
                     </a>
                     <p>${article.authors.bio || ''}</p>
                 </div>
+                
+                <div class="bottom-share-bar">
+                    <span>Share:</span>
+                    <a href="#" id="bottomShareFacebook" class="share-fb" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="bottomShareTwitter" class="share-tw" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" id="bottomShareWhatsapp" class="share-wa" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" id="bottomShareEmail" class="share-em" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
+                    <a href="javascript:window.print()" style="margin-left: auto;" aria-label="Print Article"><i class="fas fa-print"></i></a>
+                </div>
+                
+                <section class="related-articles" id="relatedArticlesSection"></section>
             `;
         }
         
@@ -234,32 +265,59 @@
             const url = encodeURIComponent(window.location.href);
             const title = encodeURIComponent(article.title);
             
-            // Floating bar
             document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
             document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            document.getElementById('shareWhatsapp').href = `https://api.whatsapp.com/send?text=${title}%20${url}`;
             document.getElementById('shareEmail').href = `mailto:?subject=${title}&body=Check out this article: ${url}`;
             
-            // Bottom bar
-            document.getElementById('bottomShareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-            document.getElementById('bottomShareTwitter').href = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
-            document.getElementById('bottomShareEmail').href = `mailto:?subject=${title}&body=Check out this article: ${url}`;
+            document.getElementById('bottomShareFacebook').href = document.getElementById('shareFacebook').href;
+            document.getElementById('bottomShareTwitter').href = document.getElementById('shareTwitter').href;
+            document.getElementById('bottomShareWhatsapp').href = document.getElementById('shareWhatsapp').href;
+            document.getElementById('bottomShareEmail').href = document.getElementById('shareEmail').href;
         }
 
-        async function fetchHeaderNav() {
-            const { data: categories } = await supabaseClient.from('categories').select('name, slug').is('parent_id', null).order('name');
+        async function fetchDynamicMenus() {
+            // Header Nav with Submenus
+            const { data: categories } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
             const nav = document.getElementById('categoryNav');
-            if (categories) {
-                nav.innerHTML = `
-                    <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
-                    ${categories.map(c => `<li class="nav-item"><a href="/index.html?categories=${c.slug}" class="nav-link">${c.name}</a></li>`).join('')}
-                    <li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li>
-                    <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
-                `;
+            const footerNav = document.getElementById('footerCategoryNav');
+
+            if (categories && nav) {
+                const navItems = await Promise.all(categories.map(async (cat) => {
+                    const { data: subcategories } = await supabaseClient.from('categories').select('*').eq('parent_id', cat.id).order('name');
+                    return { category: cat, subcategories: subcategories || [] };
+                }));
+
+                let navHtml = `<li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>`;
+                let footerNavHtml = ``;
+
+                navItems.forEach(item => {
+                    navHtml += `
+                        <li class="nav-item">
+                            <a href="/index.html?categories=${item.category.slug}" class="nav-link">
+                                ${item.category.name}
+                                ${item.subcategories.length > 0 ? '<i class="fas fa-chevron-down fa-xs"></i>' : ''}
+                            </a>
+                            ${item.subcategories.length > 0 ? `<div class="dropdown">${item.subcategories.map(sub => `<a href="/index.html?categories=${sub.slug}" class="dropdown-item">${sub.name}</a>`).join('')}</div>` : ''}
+                        </li>`;
+                    footerNavHtml += `<li><a href="/index.html?categories=${item.category.slug}">${item.category.name}</a></li>`;
+                });
+
+                navHtml += `<li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li><li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>`;
+                nav.innerHTML = navHtml;
+                if (footerNav) footerNav.innerHTML = footerNavHtml;
+            }
+
+            // Footer Support Links
+            const { data: links } = await supabaseClient.from('footer_links').select('title, url').order('title');
+            const supportNav = document.getElementById('footerSupportNav');
+            if (links && supportNav) {
+                supportNav.innerHTML = links.map(l => `<li><a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.title}</a></li>`).join('');
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchHeaderNav();
+            fetchDynamicMenus();
             if (postSlug) { fetchArticle(); } 
             else { articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>No article specified.</p><a href="/index.html">Return to Homepage</a></div>`; }
         });
