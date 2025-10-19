@@ -165,7 +165,7 @@
                     <h1 class="article-title">${article.title}</h1>
                     <div class="author-profile">
                         <img src="${article.authors.avatar_url || 'https://via.placeholder.com/60'}" alt="${article.authors.full_name}" class="author-avatar">
-                        <div><div class="author-name">By <a href="/index.html?author=${article.authors.id}">${article.authors.full_name}</a></div><div class="article-date">${new Date(article.created_at).toLocaleDateString()}</div></div>
+                        <div><div class="author-name">By <a href="/index.html?author=${article.authors.id}">${article.authors.full_name}</a></div></div>
                     </div>
                 </div>
                 <img src="${article.image_url}" alt="${article.title}" class="featured-image">
