@@ -20,102 +20,102 @@
 
     <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root, :root[data-theme='light'] {
+        :root {
             --primary-color: #fff;
             --secondary-color: #f8f9fa;
             --accent-color: #8B4513;
             --text-color: #333;
             --light-gray: #e9ecef;
             --border-color: #dee2e6;
-            --tag-bg: #f8f0f5;
-            --tag-text: #9c27b0;
-            --btn-bg: #9c27b0;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
             --footer-bg: #1a1a1a;
             --footer-text: #ccc;
         }
-        :root[data-theme='dark'] {
-            --primary-color: #1a1a1a;
-            --secondary-color: #2c2c2c;
-            --text-color: #ccc;
-            --light-gray: #3a3a3a;
-            --border-color: #444;
-            --footer-bg: #111;
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.6; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.7; }
         .page-wrapper { display: flex; justify-content: center; }
-        .main-container { max-width: 1200px; width: 100%; display: grid; grid-template-columns: 1fr 800px 1fr; gap: 2rem; padding: 0 20px; }
-        .left-sidebar, .right-sidebar { padding-top: 40px; }
-        .sticky-sidebar-item { position: sticky; top: 40px; }
+        .main-container { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 1fr 800px 1fr; gap: 2rem; padding: 0 20px; }
+        .left-sidebar, .right-sidebar { padding-top: 120px; }
+        .sticky-sidebar-item { position: sticky; top: 120px; }
         a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
         a:hover { color: var(--accent-color); }
-        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--accent-color); z-index: 10000; transform-origin: left; transform: scaleX(0); }
-        .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 100; background-color: var(--primary-color); }
+        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background-color: var(--accent-color); z-index: 10000; }
+        .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background-color: var(--primary-color); z-index: 100; }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .site-title img { max-height: 65px; width: auto; }
         .nav-menu { display: flex; list-style: none; align-items: center; }
         .nav-item { margin: 0 15px; position: relative; }
+        .nav-link { font-weight: 500; }
+        
         /* Article Styles */
         .article-page { margin: 40px 0; }
         .article-meta { margin-bottom: 30px; text-align: center; }
         .category-tag { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--accent-color); margin-bottom: 15px; display: inline-block; }
         .article-title { font-family: 'Playfair Display', serif; font-size: 42px; margin-bottom: 20px; line-height: 1.2; }
         .author-profile { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 30px; }
-        .author-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
-        .featured-image { width: 100%; height: auto; max-height: 500px; object-fit: cover; margin-bottom: 30px; border-radius: 4px; }
+        .author-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .featured-image { width: 100%; height: auto; max-height: 500px; object-fit: cover; margin-bottom: 30px; }
         .article-body { font-size: 18px; line-height: 1.8; margin-bottom: 40px; font-family: 'Georgia', serif; }
-        .article-body p, .article-body ul, .article-body ol { margin-bottom: 20px; }
+        .article-body p { margin-bottom: 20px; text-align: justify; }
         .article-body h2, .article-body h3 { font-family: 'Playfair Display', serif; margin: 40px 0 20px; color: var(--accent-color); }
         .article-body h2 { font-size: 28px; }
-        .article-body h3 { font-size: 24px; }
+        
         /* Floating Social Share Bar */
         .floating-share { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .floating-share .share-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 10px; }
+        .floating-share .share-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; }
         .floating-share a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border-color); transition: all 0.3s; }
         .floating-share a:hover { background-color: var(--secondary-color); transform: scale(1.1); }
-        /* Table of Contents */
-        #toc-container { font-size: 14px; }
-        #toc-container h4 { font-family: 'Playfair Display', serif; margin-bottom: 15px; }
-        #toc-container ul { list-style: none; padding-left: 0; }
-        #toc-container ul li a { display: block; padding: 5px 0; border-left: 2px solid transparent; padding-left: 10px; }
-        #toc-container ul li a.active { border-left-color: var(--accent-color); font-weight: 500; }
-        #toc-container ul ul { padding-left: 15px; } /* Nested list for H3 */
-        /* Author Quick Info */
-        .author-quick-info { text-align: center; border: 1px solid var(--border-color); padding: 20px; border-radius: 4px; }
-        .author-quick-info img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-        .author-quick-info h5 { font-family: 'Playfair Display', serif; font-size: 18px; }
-        .author-quick-info p { font-size: 14px; color: #888; margin-top: 10px; }
-        /* Theme Toggle */
-        .theme-toggle { cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
-        /* Back to Top Button */
-        #backToTopBtn { position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px; background: var(--accent-color); color: white; border: none; border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 100; opacity: 0; transition: opacity 0.3s, transform 0.3s; }
-        #backToTopBtn.show { opacity: 1; display: flex; }
-        /* Footer */
-        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; padding-bottom: 40px; border-bottom: 1px solid #444; }
-        .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
-        /* Mobile Adjustments */
-        @media (max-width: 1100px) {
-            .main-container { grid-template-columns: 800px; justify-content: center; }
+        
+        /* Bottom Share & Related */
+        .bottom-share-bar { display: flex; align-items: center; gap: 15px; margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid var(--border-color); }
+        .bottom-share-bar a { font-size: 20px; }
+        .related-articles { margin: 40px 0; }
+        .related-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 20px; }
+        .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .related-card { border: 1px solid var(--border-color); }
+        .related-card img { width: 100%; height: 120px; object-fit: cover; }
+        .related-card h5 { padding: 15px; font-size: 15px; font-weight: 500; }
+        
+        /* New Author Box */
+        .author-bio-box { border: 1px solid #000; padding: 30px; text-align: center; margin: 60px 0; }
+        .author-bio-box .author-title { text-transform: uppercase; font-size: 12px; letter-spacing: 1px; margin-bottom: 20px; }
+        .author-bio-box img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+        .author-bio-box h4 { font-family: 'Playfair Display', serif; font-size: 22px; }
+        .author-bio-box p { font-size: 15px; color: #666; max-width: 600px; margin: 10px auto 0; }
+        
+        /* New Footer */
+        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 40px 20px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-logo img { max-height: 40px; filter: brightness(0) invert(1); }
+        .footer-info { display: flex; align-items: center; gap: 20px; font-size: 14px; }
+        .footer-socials { display: flex; align-items: center; gap: 20px; }
+        .footer-socials a { color: white; font-size: 18px; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-container { grid-template-columns: 1fr 700px 1fr; }
+        }
+        @media (max-width: 992px) {
+            .main-container { grid-template-columns: 1fr; }
             .left-sidebar, .right-sidebar { display: none; }
         }
         @media (max-width: 768px) {
-            .main-container { grid-template-columns: 1fr; }
             .article-title { font-size: 32px; }
+            .related-grid { grid-template-columns: 1fr; }
+            .footer-content { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="loading-bar" id="readingProgressBar"></div>
-    
     <header class="header">
         <div class="header-content">
             <div class="site-title"><a href="/index.html"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo"></a></div>
-            <nav class="nav-menu" id="categoryNav"></nav>
+            <nav>
+                <ul class="nav-menu" id="categoryNav"></ul>
+            </nav>
         </div>
     </header>
 
@@ -123,34 +123,36 @@
         <div class="main-container">
             <aside class="left-sidebar">
                 <div class="sticky-sidebar-item">
-                    <div class="floating-share" id="floatingShareBar">
+                    <div class="floating-share">
                         <span class="share-title">Share</span>
-                        <a href="#" id="shareFacebook" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" id="shareTwitter" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" id="shareFacebook" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" id="shareTwitter" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
                         <a href="#" id="shareEmail" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
-                        <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
                     </div>
                 </div>
             </aside>
             <main>
-                <div class="article-page" id="articleContainer"></div>
+                <div class="article-page" id="articleContainer">
+                    </div>
             </main>
             <aside class="right-sidebar">
-                <div class="sticky-sidebar-item">
-                    <div id="authorQuickInfo" class="author-quick-info" style="margin-bottom: 2rem;"></div>
-                    <div id="toc-container"></div>
-                </div>
-            </aside>
+                </aside>
         </div>
     </div>
 
     <footer class="site-footer">
-        <div class="footer-grid">
-           </div>
-        <div class="footer-bottom"><p>Copyright © 2025. The Limelight Online. All rights reserved.</p></div>
+        <div class="footer-content">
+            <a href="https://thelimelightonline.in" class="footer-logo"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Logo"></a>
+            <div class="footer-info">
+                <span>© 2025 The Limelight</span>
+                <a href="mailto:thelimelightin@gmail.com">thelimelightin@gmail.com</a>
+                <a href="https://thelimelightonline.in">thelimelightonline.in</a>
+            </div>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/the_limelight_bimonthly/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
     </footer>
-
-    <button id="backToTopBtn" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -162,30 +164,21 @@
         const postSlug = pathParts[pathParts.length - 1];
         
         const articleContainer = document.getElementById('articleContainer');
-        const progressBar = document.getElementById('readingProgressBar');
-        const backToTopBtn = document.getElementById('backToTopBtn');
-        const themeToggle = document.getElementById('themeToggle');
-        
+
         async function fetchArticle() {
-            const { data: article, error } = await supabaseClient
-                .from('posts')
-                .select(`*, authors(*), categories(*)`)
-                .eq('slug', postSlug)
-                .single();
+            const { data: article, error } = await supabaseClient.from('posts').select(`*, authors(*), categories(*)`).eq('slug', postSlug).single();
             
             if (error || !article) {
-                articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>The article you're looking for doesn't exist.</p><a href="/index.html">Return to Homepage</a></div>`;
+                articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>The article you are looking for does not exist.</p><a href="/index.html">Return to Homepage</a></div>`;
                 return;
             }
             
-            renderArticle(article);
-            setupReadingProgress();
-            setupTableOfContents();
+            await renderArticle(article);
+            await fetchRelatedArticles(article.category_id, article.id);
             setupShareLinks(article);
-            setupAuthorQuickInfo(article.authors);
         }
 
-        function renderArticle(article) {
+        async function renderArticle(article) {
             document.title = `${article.title} | The Limelight`;
             articleContainer.innerHTML = `
                 <div class="article-meta">
@@ -197,105 +190,76 @@
                     </div>
                 </div>
                 <img src="${article.image_url}" alt="${article.title}" class="featured-image">
-                <div class="article-body" id="articleBody">${article.content}</div>`;
-        }
-
-        function setupTableOfContents() {
-            const articleBody = document.getElementById('articleBody');
-            const tocContainer = document.getElementById('toc-container');
-            if (!articleBody || !tocContainer) return;
-
-            const headings = articleBody.querySelectorAll('h2, h3');
-            if (headings.length < 2) {
-                tocContainer.style.display = 'none';
-                return;
-            }
-
-            let tocHtml = '<h4>In This Article</h4><ul>';
-            let activeHeadings = new Map();
-
-            headings.forEach((heading, index) => {
-                const id = `heading-${index}`;
-                heading.id = id;
-                const level = heading.tagName === 'H2' ? 1 : 2;
+                <div class="article-body">${article.content}</div>
                 
-                tocHtml += `<li class="toc-level-${level}"><a href="#${id}">${heading.textContent}</a></li>`;
-                activeHeadings.set(heading, document.querySelector(`a[href="#${id}"]`));
-            });
-            tocHtml += '</ul>';
-            tocContainer.innerHTML = tocHtml;
-
-            // Active link highlighting on scroll
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    const link = activeHeadings.get(entry.target);
-                    if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-            }, { threshold: 0.75 });
-
-            headings.forEach(h => observer.observe(h));
-        }
-
-        function setupReadingProgress() {
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPercent = (scrollTop / docHeight) * 100;
-                progressBar.style.transform = `scaleX(${scrollPercent / 100})`;
+                <div class="bottom-share-bar">
+                    <span>Share:</span>
+                    <a href="#" id="bottomShareFacebook" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="bottomShareTwitter" target="_blank" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" id="bottomShareEmail" aria-label="Share by Email"><i class="fas fa-envelope"></i></a>
+                    <a href="javascript:window.print()" style="margin-left: auto;" aria-label="Print Article"><i class="fas fa-print"></i></a>
+                </div>
                 
-                // Back to top button
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.add('show');
-                } else {
-                    backToTopBtn.classList.remove('show');
-                }
-            });
-        }
-        
-        function setupAuthorQuickInfo(author) {
-            const infoBox = document.getElementById('authorQuickInfo');
-            if (!infoBox) return;
-            infoBox.innerHTML = `
-                <a href="/index.html?author=${author.id}">
-                    <img src="${author.avatar_url || 'https://via.placeholder.com/70'}" alt="${author.full_name}">
-                    <h5>${author.full_name}</h5>
-                </a>
-                <p>${author.bio ? author.bio.substring(0, 100) + '...' : ''}</p>
+                <section class="related-articles" id="relatedArticlesSection"></section>
+
+                <div class="author-bio-box">
+                    <div class="author-title">Author</div>
+                    <a href="/index.html?author=${article.authors.id}">
+                        <img src="${article.authors.avatar_url || 'https://via.placeholder.com/90'}" alt="${article.authors.full_name}">
+                        <h4>${article.authors.full_name}</h4>
+                    </a>
+                    <p>${article.authors.bio || ''}</p>
+                </div>
             `;
         }
         
+        async function fetchRelatedArticles(categoryId, currentArticleId) {
+            const { data: related } = await supabaseClient.from('posts').select(`slug, title, image_url`).eq('category_id', categoryId).neq('id', currentArticleId).order('created_at', { ascending: false }).limit(3);
+            const section = document.getElementById('relatedArticlesSection');
+            if (related && related.length > 0) {
+                section.innerHTML = `
+                    <h3 class="related-title">Related Articles</h3>
+                    <div class="related-grid">
+                        ${related.map(article => `
+                            <a href="/article/${article.slug}" class="related-card">
+                                <img src="${article.image_url || 'https://via.placeholder.com/400x200'}" alt="${article.title}">
+                                <h5>${article.title}</h5>
+                            </a>
+                        `).join('')}
+                    </div>`;
+            }
+        }
+        
         function setupShareLinks(article) {
-            const url = window.location.href;
-            const title = article.title;
-            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
-            document.getElementById('shareEmail').href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('Check out this article: ' + url)}`;
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(article.title);
+            
+            // Floating bar
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            document.getElementById('shareEmail').href = `mailto:?subject=${title}&body=Check out this article: ${url}`;
+            
+            // Bottom bar
+            document.getElementById('bottomShareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            document.getElementById('bottomShareTwitter').href = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            document.getElementById('bottomShareEmail').href = `mailto:?subject=${title}&body=Check out this article: ${url}`;
         }
 
-        // --- Theme Toggle Logic ---
-        const applyTheme = (theme) => {
-            document.documentElement.setAttribute('data-theme', theme);
-            themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            localStorage.setItem('limelight-theme', theme);
-        };
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            applyTheme(newTheme);
-        });
-        const savedTheme = localStorage.getItem('limelight-theme') || 'light';
-        applyTheme(savedTheme);
-        
-        // --- Back to Top Logic ---
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        async function fetchHeaderNav() {
+            const { data: categories } = await supabaseClient.from('categories').select('name, slug').is('parent_id', null).order('name');
+            const nav = document.getElementById('categoryNav');
+            if (categories) {
+                nav.innerHTML = `
+                    <li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>
+                    ${categories.map(c => `<li class="nav-item"><a href="/index.html?categories=${c.slug}" class="nav-link">${c.name}</a></li>`).join('')}
+                    <li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li>
+                    <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>
+                `;
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
+            fetchHeaderNav();
             if (postSlug) { fetchArticle(); } 
             else { articleContainer.innerHTML = `<div style="text-align: center; padding: 50px;"><h1>Article Not Found</h1><p>No article specified.</p><a href="/index.html">Return to Homepage</a></div>`; }
         });
