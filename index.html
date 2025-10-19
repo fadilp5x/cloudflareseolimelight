@@ -57,19 +57,53 @@
         .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease; }
         .carousel-slide.active { opacity: 1; z-index: 1; }
         .carousel-image { width: 100%; height: 100%; object-fit: cover; }
-        .carousel-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 40px 30px 30px; color: white; }
+        .carousel-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 40px 30px 30px; color: white; display: flex; flex-direction: column; justify-content: flex-end; }
+        .card-meta-info { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; }
         .category-tag {
             font-family: 'Playfair Display', serif;
             font-size: 16px;
             font-weight: 700;
             color: var(--accent-color);
-            margin-bottom: 10px;
-            display: inline-block;
         }
         .category-tag:hover {
             text-decoration: underline;
         }
-        .carousel-title { font-size: 28px; font-family: 'Playfair Display', serif; }
+        .featured-badge {
+            position: relative;
+            background-color: #07A3CC;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .featured-badge .fa-star { font-size: 10px; }
+        .featured-badge:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.2s;
+        }
+        .carousel-title { font-size: 28px; font-family: 'Playfair Display', serif; margin-bottom: 15px; }
+        .carousel-author-info { display: flex; align-items: center; gap: 12px; }
+        .carousel-author-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.8); }
+        .carousel-author-name { font-size: 15px; font-weight: 500; }
         .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border-radius: 50%; }
         .carousel-prev { left: 20px; }
         .carousel-next { right: 20px; }
@@ -89,6 +123,7 @@
             display: flex; 
             flex-direction: column; 
             box-shadow: var(--card-shadow); 
+            cursor: pointer;
         }
         .article-card:hover { 
             transform: translateY(-5px);
@@ -115,7 +150,12 @@
             display: flex; 
             flex-direction: column; 
         }
-        .card-title { font-size: 18px; font-weight: 500; margin: 12px 0 10px; }
+        .card-title { 
+            font-family: 'Playfair Display', serif;
+            font-size: 20px; 
+            font-weight: 700; 
+            margin: 10px 0;
+        }
         .card-author { 
             display: flex; 
             align-items: center; 
@@ -124,6 +164,7 @@
             color: #555; 
             margin-top: auto;
             padding-top: 15px;
+            border-top: 1px solid var(--border-color);
         }
         .author-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
         .card-excerpt {
@@ -144,13 +185,9 @@
             height: 30px; 
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
         }
-        .card-meta {
-            font-size: 12px;
-            color: #888;
-            margin-top: 10px;
-        }
         .load-more-container { text-align: center; margin: 40px 0; }
-        .load-more-btn { display: inline-block; padding: 12px 30px; background-color: var(--btn-bg); color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        .load-more-btn { display: inline-block; padding: 12px 30px; background-color: var(--accent-color); color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
+        .load-more-btn:hover { background-color: #6a340d; }
         .page-title { text-align: center; margin-bottom: 2rem; font-family: 'Playfair Display', serif; font-size: 2rem; }
         .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
         .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding-bottom: 40px; border-bottom: 1px solid #444; }
@@ -158,9 +195,11 @@
         .footer-links h4 { font-size: 18px; color: white; margin-bottom: 20px; }
         .footer-links ul { list-style: none; }
         .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul a { color: white; } /* Changed to white */
         #footerSubscribeForm { display: flex; }
         #footerSubscribeForm input { flex-grow: 1; border: none; padding: 12px; background-color: #333; color: white; }
-        #footerSubscribeForm button { border: none; background-color: var(--btn-bg); color: white; padding: 0 20px; cursor: pointer; }
+        #footerSubscribeForm button { border: none; background-color: var(--accent-color); color: white; padding: 0 20px; cursor: pointer; transition: background-color 0.3s; }
+        #footerSubscribeForm button:hover { background-color: #6a340d; }
         .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
         @media (max-width: 992px) { .articles-grid, .footer-grid { grid-template-columns: 1fr 1fr; } .mobile-nav-toggle { display: block; } .nav-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } .nav-container.active { display: block; } .nav-menu { display: none; flex-direction: column; align-items: flex-start; padding: 10px 0; } .nav-container.active .nav-menu { display: flex; } .nav-item { margin: 0; width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); } .nav-link { padding: 15px 20px; width: 100%; } .dropdown { position: static; box-shadow: none; background: #f9f9f9; padding-left: 20px; } .dropdown-item { color: var(--text-color); } }
         @media (max-width: 768px) { .site-title img { max-height: 50px; } .carousel-container { height: 350px; } .carousel-title { font-size: 22px; } .articles-grid, .footer-grid { grid-template-columns: 1fr; } }
@@ -212,8 +251,7 @@
 
         const POSTS_PER_PAGE = 12;
         let currentPage = 1, totalPosts = 0, currentSlide = 0, featuredPosts = [], isCarouselTransitioning = false, carouselInterval;
-        const articlesGrid = document.getElementById('articlesGrid'), loadingBar = document.getElementById('loadingBar'), loadMoreContainer = document.getElementById('loadMoreContainer');
-        const featuredCarousel = document.getElementById('featuredCarousel'), progressBarInner = document.getElementById('progressBarInner');
+        const articlesGrid = document.getElementById('articlesGrid'), loadingBar = document.getElementById('loadingBar'), loadMoreContainer = document.getElementById('loadMoreContainer'), loadMoreBtn = document.getElementById('loadMoreBtn');
 
         function showLoading() { loadingBar.style.display = 'block'; }
         function hideLoading() { loadingBar.style.display = 'none'; }
@@ -251,7 +289,7 @@
             if (!loadMore) { currentPage = 1; articlesGrid.innerHTML = ''; }
             showLoading();
             const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
-            let query = supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name, avatar_url)`, { count: 'exact' });
+            let query = supabaseClient.from('posts').select(`*, categories(name, slug), authors(id, full_name, avatar_url)`, { count: 'exact' });
             if (categorySlug) {
                 const { data: categoryData } = await supabaseClient.from('categories').select('id').eq('slug', categorySlug).single();
                 if (categoryData) query = query.eq('category_id', categoryData.id);
@@ -269,60 +307,93 @@
 
         function renderCarousel() {
             if (!featuredPosts || featuredPosts.length === 0) return;
-            document.getElementById('carouselContainer').innerHTML = featuredPosts.map(post => `<div class="carousel-slide"><a href="/article/${post.slug}"><img src="${post.image_url}" alt="${post.title}" class="carousel-image"></a><div class="carousel-overlay"><a href="/index.html?categories=${post.categories.slug}" class="category-tag">${post.categories.name}</a><h2 class="carousel-title"><a href="/article/${post.slug}" style="color: white;">${post.title}</a></h2></div></div>`).join('');
+            document.getElementById('carouselContainer').innerHTML = featuredPosts.map(post => {
+                return `
+                <div class="carousel-slide">
+                    <a href="/article/${post.slug}">
+                        <img src="${post.image_url}" alt="${post.title}" class="carousel-image">
+                    </a>
+                    <div class="carousel-overlay">
+                        <h2 class="carousel-title"><a href="/article/${post.slug}" style="color: white;">${post.title}</a></h2>
+                        <div class="carousel-author-info">
+                            <img src="${post.authors.avatar_url || 'https://via.placeholder.com/35'}" alt="${post.authors.full_name}" class="carousel-author-avatar">
+                            <span class="carousel-author-name">${post.authors.full_name}</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
             if (featuredPosts.length > 1) {
                 document.getElementById('carouselIndicators').innerHTML = featuredPosts.map((_, i) => `<div class="indicator" data-slide-to="${i}"></div>`).join('');
                 document.querySelector('.carousel-slide').classList.add('active');
                 document.querySelector('.indicator').classList.add('active');
-            } else { document.querySelector('.carousel-slide').classList.add('active'); }
+            } else { 
+                document.querySelector('.carousel-slide').classList.add('active'); 
+            }
         }
 
         function renderPosts(posts, append) {
-            if (!append) articlesGrid.innerHTML = '';
+            if (!append && articlesGrid) articlesGrid.innerHTML = '';
             posts.forEach((post, i) => {
-                const card = document.createElement('a');
-                card.href = `/article/${post.slug}`;
+                const card = document.createElement('div');
                 card.className = 'article-card';
                 card.style.animationDelay = `${i * 0.1}s`;
-
-                // Calculate reading time
-                const wordsPerMinute = 200;
-                const wordCount = post.word_count || 0;
-                const readingTime = Math.ceil(wordCount / wordsPerMinute);
+                
+                const featuredBadgeHtml = post.is_featured ? `<span class="featured-badge" data-tooltip="An Editorial Selection from The Limelight Magazine"><i class="fas fa-star"></i> Featured</span>` : '';
 
                 card.innerHTML = `
-                    <div class="card-image-wrapper">
+                    <a href="/article/${post.slug}" class="card-image-wrapper">
                         <img src="${post.image_url || 'https://via.placeholder.com/400x200'}" alt="${post.title}" class="card-image" loading="lazy">
-                    </div>
+                    </a>
                     <div class="card-content">
-                        <a href="/index.html?categories=${post.categories.slug}" class="category-tag" onclick="event.stopPropagation()">${post.categories.name}</a>
-                        <h3 class="card-title">${post.title}</h3>
-                        <div class="card-meta">${readingTime} min read</div>
+                        <div class="card-meta-info">
+                            <a href="/index.html?categories=${post.categories.slug}" class="category-tag">${post.categories.name}</a>
+                            ${featuredBadgeHtml}
+                        </div>
+                        <h3 class="card-title"><a href="/article/${post.slug}">${post.title}</a></h3>
                         <div class="card-excerpt">${post.excerpt || ''}</div>
-                        <div class="card-author">
+                        <a href="/index.html?author=${post.authors.id}" class="card-author">
                             <img src="${post.authors.avatar_url || 'https://via.placeholder.com/30'}" alt="${post.authors.full_name}" class="author-avatar">
                             <span>${post.authors.full_name}</span>
-                        </div>
+                        </a>
                     </div>`;
-                articlesGrid.appendChild(card);
+
+                // Add event listeners to stop propagation on internal links
+                card.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => e.stopPropagation());
+                });
+
+                // Add a single click listener to the card itself
+                card.addEventListener('click', () => {
+                    window.location.href = `/article/${post.slug}`;
+                });
+                
+                if (articlesGrid) articlesGrid.appendChild(card);
             });
         }
-        
+
         function updateLoadMoreButton() {
-            loadMoreContainer.style.display = (currentPage * POSTS_PER_PAGE < totalPosts) ? 'block' : 'none';
+            if (loadMoreContainer) {
+                loadMoreContainer.style.display = (currentPage * POSTS_PER_PAGE < totalPosts) ? 'block' : 'none';
+            }
         }
 
         async function initPage() {
             showLoading();
             setupMobileNav();
             const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
-            document.getElementById('pageTitleContainer').innerHTML = '';
-            featuredCarousel.style.display = 'block';
+            
+            if (document.getElementById('pageTitleContainer')) {
+                document.getElementById('pageTitleContainer').innerHTML = '';
+            }
+            if (featuredCarousel) {
+                featuredCarousel.style.display = 'block';
+            }
 
             await fetchCategoriesAndLinks();
 
             if (categorySlug || authorId) {
-                featuredCarousel.style.display = 'none';
+                if (featuredCarousel) featuredCarousel.style.display = 'none';
                 let title = '';
                 if(categorySlug) {
                     const {data} = await supabaseClient.from('categories').select('name').eq('slug', categorySlug).single();
@@ -331,7 +402,9 @@
                     const {data} = await supabaseClient.from('authors').select('full_name').eq('id', authorId).single();
                     title = `Posts by ${data?.full_name || 'Author'}`;
                 }
-                document.getElementById('pageTitleContainer').innerHTML = `<h2 class="page-title">${title}</h2>`;
+                if (document.getElementById('pageTitleContainer')) {
+                    document.getElementById('pageTitleContainer').innerHTML = `<h2 class="page-title">${title}</h2>`;
+                }
             } else {
                 await fetchFeaturedPosts();
             }
@@ -355,6 +428,7 @@
         }
 
         function restartProgressBar() {
+            if (!progressBarInner) return;
             progressBarInner.classList.remove('is-animating');
             void progressBarInner.offsetWidth;
             progressBarInner.classList.add('is-animating');
@@ -363,7 +437,7 @@
         function startCarouselInterval() {
             stopCarouselInterval();
             if (featuredPosts.length > 1) {
-                progressBarInner.style.width = '0%';
+                if(progressBarInner) progressBarInner.style.width = '0%';
                 setTimeout(() => restartProgressBar(), 50);
                 carouselInterval = setInterval(() => { showSlide(currentSlide + 1); restartProgressBar(); }, 5000);
             }
@@ -373,6 +447,7 @@
         let searchTimeout;
         function setupSearch() {
             const searchContainer = document.getElementById('searchContainer'), searchIcon = searchContainer.querySelector('.search-icon-btn'), searchInput = searchContainer.querySelector('#searchInput'), resultsContainer = document.getElementById('searchResultsContainer');
+            if (!searchContainer) return;
             searchIcon.addEventListener('click', (e) => { e.stopPropagation(); searchContainer.classList.toggle('active'); if (searchContainer.classList.contains('active')) searchInput.focus(); });
             searchInput.addEventListener('input', () => {
                 clearTimeout(searchTimeout);
@@ -386,18 +461,30 @@
                     else { resultsContainer.innerHTML = '<p style="padding: 20px;">No results found.</p>'; }
                 }, 300);
             });
-            document.addEventListener('click', (e) => { if (!searchContainer.contains(e.target)) { searchContainer.classList.remove('active'); resultsContainer.style.display = 'none'; } });
+            document.addEventListener('click', (e) => { if (!searchContainer.contains(e.target)) { searchContainer.classList.remove('active'); if (resultsContainer) resultsContainer.style.display = 'none'; } });
         }
         
-        function setupMobileNav() { document.querySelector('.mobile-nav-toggle').addEventListener('click', () => document.getElementById('navContainer').classList.toggle('active')); }
+        function setupMobileNav() { 
+            const toggle = document.querySelector('.mobile-nav-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', () => document.getElementById('navContainer').classList.toggle('active')); 
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', initPage);
-        featuredCarousel.addEventListener('click', (e) => {
-            if (e.target.closest('.carousel-prev')) showSlide(currentSlide - 1, true);
-            if (e.target.closest('.carousel-next')) showSlide(currentSlide + 1, true);
-            if (e.target.matches('.indicator')) showSlide(parseInt(e.target.dataset.slideTo), true);
-        });
-        loadMoreBtn.addEventListener('click', () => { currentPage++; fetchPosts(true); });
+        if (featuredCarousel) {
+            featuredCarousel.addEventListener('click', (e) => {
+                if (e.target.closest('.carousel-prev')) showSlide(currentSlide - 1, true);
+                if (e.target.closest('.carousel-next')) showSlide(currentSlide + 1, true);
+                if (e.target.matches('.indicator')) showSlide(parseInt(e.target.dataset.slideTo), true);
+            });
+        }
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => { 
+                currentPage++; 
+                fetchPosts(true); 
+            });
+        }
     </script>
 </body>
 </html>
