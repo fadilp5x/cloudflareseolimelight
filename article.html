@@ -4,282 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- DYNAMIC SEO PLACEHOLDERS - DO NOT REMOVE -->
+    <!-- DYNAMIC SEO PLACEHOLDERS -->
     <title>__SEO_TITLE__ | The Limelight</title>
     <meta name="description" content="__SEO_DESC__">
     <meta name="author" content="__SEO_AUTHOR__">
 
-    <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="__SEO_URL__">
     <meta property="og:title" content="__SEO_TITLE__">
     <meta property="og:description" content="__SEO_DESC__">
     <meta property="og:image" content="__SEO_IMAGE__">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="__SEO_URL__">
     <meta property="twitter:title" content="__SEO_TITLE__">
     <meta property="twitter:description" content="__SEO_DESC__">
     <meta property="twitter:image" content="__SEO_IMAGE__">
-
-    <!-- Schema.org for Google -->
-    <meta itemprop="name" content="__SEO_TITLE__">
-    <meta itemprop="description" content="__SEO_DESC__">
-    <meta itemprop="image" content="__SEO_IMAGE__">
 
     <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root, :root[data-theme='light'] {
+        :root {
             --primary-bg: #fff;
-            --secondary-bg: #f8f9fa;
+            --secondary-bg: #f9f9f9;
             --accent-color: #8B4513;
-            --text-color: #333;
-            --text-muted: #666;
-            --border-color: #dee2e6;
-            --limelight-purple: #9C27B0;
-            --nav-bg: #fff;
+            --text-color: #222;
+            --text-muted: #555;
+            --border-color: #eaeaea;
             --footer-bg: #1a1a1a;
-            --footer-text: #ccc;
+            --max-content-width: 800px; /* Constrain text width for readability */
         }
-        :root[data-theme='dark'] {
-            --primary-bg: #121212;
-            --secondary-bg: #1e1e1e;
-            --accent-color: #cd853f;
-            --text-color: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --border-color: #333;
-            --limelight-purple: #ce93d8;
-            --nav-bg: #121212;
-            --footer-bg: #000;
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: 'Roboto', sans-serif; 
             background-color: var(--primary-bg); 
             color: var(--text-color); 
-            line-height: 1.7; 
-            overflow-x: hidden;
+            line-height: 1.8; 
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-
-        a { color: inherit; text-decoration: none; transition: color 0.3s ease; }
+        
+        a { color: inherit; text-decoration: none; transition: color 0.2s; }
         a:hover { color: var(--accent-color); }
         img { max-width: 100%; height: auto; display: block; }
 
-        /* --- Header & Nav --- */
-        .header { 
-            background-color: var(--nav-bg); 
-            border-bottom: 1px solid var(--border-color); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            padding: 10px 0;
-        }
-        .header-content { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 0 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .site-logo img { height: 50px; width: auto; }
+        /* --- Header --- */
+        .header { border-bottom: 1px solid var(--border-color); padding: 15px 0; position: sticky; top: 0; background: #fff; z-index: 100; }
+        .header-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .site-logo img { height: 45px; width: auto; }
+        .nav-home-link { font-weight: 500; font-size: 14px; text-transform: uppercase; display: flex; align-items: center; gap: 5px; }
 
-        .nav-menu { display: flex; list-style: none; gap: 20px; align-items: center; }
-        .nav-link { font-weight: 500; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        .mobile-nav-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--text-color); cursor: pointer; }
-
-        /* --- Main Layout --- */
-        .reading-progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent-color); z-index: 1001; width: 0%; transition: width 0.1s; }
-
+        /* --- Layout Grid --- */
         .main-wrapper {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 250px 1fr 250px; /* Sidebar - Content - Sidebar */
-            gap: 40px;
             padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 200px 1fr 200px; /* Sidebar | Content | Sidebar */
+            gap: 40px;
+            align-items: start;
         }
 
-        /* Sidebars */
-        .left-sidebar, .right-sidebar { position: relative; }
-        .sticky-wrapper { position: sticky; top: 100px; }
-        
-        /* Table of Contents */
-        .toc-box h4 { font-family: 'Playfair Display', serif; margin-bottom: 15px; color: var(--accent-color); }
-        .toc-list { list-style: none; border-left: 2px solid var(--border-color); }
-        .toc-list li a { display: block; padding: 5px 0 5px 15px; color: var(--text-muted); font-size: 14px; transition: all 0.2s; border-left: 2px solid transparent; margin-left: -2px; }
-        .toc-list li a.active { color: var(--accent-color); border-left-color: var(--accent-color); font-weight: 600; }
-        .toc-list li a:hover { color: var(--accent-color); }
-
-        /* Share Icons (Vertical) */
-        .floating-share { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 30px; }
-        .share-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; transition: transform 0.2s; }
-        .share-btn:hover { transform: scale(1.1); }
-        .fb { background: #1877F2; } .tw { background: #1DA1F2; } .wa { background: #25D366; } .em { background: #777; }
-
         /* --- Article Content --- */
-        .article-container { width: 100%; }
-        
+        .article-content {
+            width: 100%;
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+        }
+
+        /* 1. Article Header */
         .article-header { text-align: center; margin-bottom: 30px; }
-        .category-badge { 
+        .category-label { 
             display: inline-block; 
-            padding: 5px 15px; 
-            background: var(--secondary-bg); 
-            color: var(--accent-color); 
             font-family: 'Playfair Display', serif; 
+            color: var(--accent-color); 
             font-weight: 700; 
-            margin-bottom: 15px; 
-            border-radius: 20px;
+            font-size: 1.1rem; 
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .article-title { 
             font-family: 'Playfair Display', serif; 
-            font-size: 2.5rem; 
+            font-size: 2.8rem; 
             line-height: 1.2; 
             margin-bottom: 20px; 
-            color: var(--text-color);
+            color: #111;
         }
-        .article-meta { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.95rem; color: var(--text-muted); }
-        .author-avatar-small { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        .article-meta { 
+            display: flex; align-items: center; justify-content: center; gap: 15px; 
+            font-size: 0.95rem; color: var(--text-muted); border-top: 1px solid #eee; 
+            border-bottom: 1px solid #eee; padding: 15px 0; margin-top: 20px;
+        }
+        .author-info img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; display: inline-block; }
 
-        .featured-image-wrapper { margin-bottom: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .featured-image { width: 100%; object-fit: cover; }
+        /* 2. Featured Image (FIXED SIZE) */
+        .featured-image-container {
+            width: 100%;
+            height: 500px; /* Fixed height for desktop */
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Crucial: crops image instead of stretching */
+            object-position: center top;
+        }
 
+        /* 3. Body Text (Readability Optimized) */
         .article-body { 
-            font-size: 1.125rem; /* 18px */
-            line-height: 1.8; 
             font-family: 'Georgia', serif; 
-            color: var(--text-color);
+            font-size: 1.2rem; /* Larger text as requested */
+            color: #2a2a2a;
+            overflow-wrap: break-word; /* Prevents long words/URLs from breaking layout */
         }
-        /* Mobile Optimization: Left align is better for readability on small screens than justify */
-        .article-body p { margin-bottom: 1.5em; text-align: left; } 
-        .article-body h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 1.5em 0 0.8em; color: var(--accent-color); }
-        .article-body h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 1.2em 0 0.8em; }
-        .article-body blockquote { 
-            border-left: 4px solid var(--limelight-purple); 
-            padding: 10px 20px; 
-            margin: 2em 0; 
-            background: var(--secondary-bg); 
-            font-style: italic; 
-            border-radius: 0 8px 8px 0;
-        }
-
-        /* Author Box */
-        .author-box { 
-            margin-top: 60px; 
-            padding: 30px; 
-            background: var(--secondary-bg); 
-            border-radius: 8px; 
-            text-align: center; 
-            border: 1px solid var(--border-color);
-        }
-        .author-box img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px; }
-        .author-box h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 10px; }
+        .article-body p { margin-bottom: 1.8em; }
         
-        /* Footer */
-        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 50px 0 20px; margin-top: 60px; }
-        .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .footer-col h4 { color: #fff; margin-bottom: 20px; font-family: 'Playfair Display', serif; }
-        .footer-links li { margin-bottom: 10px; list-style: none; }
-        .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; font-size: 14px; }
+        /* Force images inside body to respect width */
+        .article-body img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 4px; 
+            margin: 30px auto; 
+        }
 
-        /* --- MOBILE OPTIMIZATIONS --- */
+        .article-body h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.8rem; 
+            margin-top: 50px; 
+            margin-bottom: 20px; 
+            color: var(--accent-color);
+        }
+
+        .article-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #555;
+            background: #fdfdfd;
+            padding: 20px;
+        }
+
+        /* --- Sidebars (Desktop) --- */
+        .left-sidebar { position: sticky; top: 100px; text-align: right; }
+        .toc-title { font-size: 0.85rem; text-transform: uppercase; color: #999; margin-bottom: 15px; letter-spacing: 1px; }
+        .toc-list { list-style: none; }
+        .toc-list li { margin-bottom: 10px; }
+        .toc-list a { font-size: 0.9rem; color: #666; display: block; border-right: 2px solid transparent; padding-right: 15px; }
+        .toc-list a.active { color: var(--accent-color); border-right-color: var(--accent-color); font-weight: bold; }
+
+        .share-bar { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; margin-top: 40px; }
+        .share-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; transition: transform 0.2s; font-size: 16px; }
+        .share-icon:hover { transform: scale(1.1); }
+
+        /* --- Footer --- */
+        .site-footer { background: var(--footer-bg); color: #ccc; padding: 60px 0 20px; margin-top: 80px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; text-align: center; }
+
+        /* --- Mobile Optimization --- */
         @media (max-width: 992px) {
             .main-wrapper { 
-                grid-template-columns: 1fr; /* Single column */
-                gap: 20px; 
-                padding: 20px; 
+                display: block; /* Stack everything */
+                padding: 20px;
             }
             .left-sidebar, .right-sidebar { display: none; } /* Hide sidebars on mobile */
             
-            .article-title { font-size: 2rem; }
-            .article-body { font-size: 1.05rem; line-height: 1.7; }
+            .article-header { text-align: left; }
+            .article-title { font-size: 2.2rem; }
+            .article-meta { justify-content: flex-start; }
             
-            /* Mobile Nav */
-            .mobile-nav-toggle { display: block; }
-            .nav-menu { 
-                position: fixed; 
-                top: 70px; 
-                left: 0; 
-                width: 100%; 
-                background: var(--primary-bg); 
-                flex-direction: column; 
-                padding: 20px; 
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-                display: none; 
-                border-bottom: 1px solid var(--border-color);
+            .featured-image-container { 
+                height: 300px; /* Smaller height for mobile */
+                margin-bottom: 30px;
             }
-            .nav-menu.active { display: flex; }
+            
+            .article-body { font-size: 1.1rem; }
+            
+            /* Sticky Share Bar for Mobile (Bottom) */
+            .mobile-share-bar {
+                position: fixed; bottom: 0; left: 0; width: 100%; 
+                background: white; border-top: 1px solid #ddd;
+                display: flex; justify-content: space-around; padding: 15px;
+                z-index: 999;
+            }
+            .mobile-share-bar a { color: #333; font-size: 20px; }
+        }
+        @media (min-width: 993px) {
+            .mobile-share-bar { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="reading-progress-bar" id="readingProgressBar"></div>
-
     <header class="header">
         <div class="header-content">
+            <a href="/index.html" class="nav-home-link"><i class="fas fa-arrow-left"></i> Home</a>
             <a href="/index.html" class="site-logo">
                 <img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight">
             </a>
-            <button class="mobile-nav-toggle" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
-            <ul class="nav-menu" id="navMenu">
-                <!-- Dynamically filled -->
-            </ul>
+            <div style="width: 60px;"></div> <!-- Spacer -->
         </div>
     </header>
 
     <div class="main-wrapper">
-        <!-- Left Sidebar (TOC & Share) -->
+        <!-- Sidebar: Table of Contents & Share -->
         <aside class="left-sidebar">
-            <div class="sticky-wrapper">
-                <div id="tocContainer" class="toc-box"></div>
-                <div class="floating-share">
-                    <a href="#" class="share-btn fb" id="shareFb"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="share-btn tw" id="shareTw"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="share-btn wa" id="shareWa"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="share-btn em" id="shareEm"><i class="fas fa-envelope"></i></a>
-                </div>
+            <div class="toc-title">Table of Contents</div>
+            <ul class="toc-list" id="tocList"></ul>
+            
+            <div class="share-bar">
+                <a href="#" class="share-icon" style="background:#3b5998" id="shareFb"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="share-icon" style="background:#1da1f2" id="shareTw"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="share-icon" style="background:#25d366" id="shareWa"><i class="fab fa-whatsapp"></i></a>
             </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="article-container" id="articleContent">
-            <!-- Loading State -->
-            <div style="text-align: center; padding: 40px;">
-                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-color);"></i>
-                <p style="margin-top: 10px;">Loading Article...</p>
+        <article class="article-content" id="mainContent">
+            <!-- Content Injected via JS -->
+            <div style="padding: 100px 0; text-align: center;">
+                <i class="fas fa-circle-notch fa-spin fa-2x" style="color:var(--accent-color)"></i>
             </div>
-        </main>
+        </article>
+        
+        <!-- Right Sidebar (Empty for balance or ads) -->
+        <aside class="right-sidebar"></aside>
+    </div>
 
-        <!-- Right Sidebar (Empty or Ads) -->
-        <aside class="right-sidebar">
-            <!-- Could put recent posts or ads here -->
-        </aside>
+    <!-- Mobile Share Bar -->
+    <div class="mobile-share-bar">
+        <a href="#" id="mShareFb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" id="mShareTw"><i class="fab fa-twitter"></i></a>
+        <a href="#" id="mShareWa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" id="mShareCp"><i class="fas fa-copy"></i></a>
     </div>
 
     <footer class="site-footer">
         <div class="footer-content">
-            <div class="footer-col">
-                <h4>THE LIMELIGHT</h4>
-                <p>Insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Explore</h4>
-                <ul class="footer-links" id="footerCats"></ul>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul class="footer-links" id="footerLinks"></ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
+            <h3 style="color:white; font-family:'Playfair Display'; margin-bottom:10px;">THE LIMELIGHT</h3>
             <p>&copy; 2025 The Limelight Online. All rights reserved.</p>
         </div>
     </footer>
@@ -287,162 +254,109 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = 'https://whklfmxjknhucguzvpob.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Get Slug
         const pathParts = window.location.pathname.split('/');
-        const slug = pathParts[pathParts.length - 1] || getUrlParameter('slug');
+        const slug = pathParts[pathParts.length - 1];
 
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        // Init
         document.addEventListener('DOMContentLoaded', async () => {
-            setupMobileNav();
-            setupMenu();
-            if (slug) await loadArticle();
+            if(slug) {
+                await loadArticle();
+            }
         });
 
-        // 1. Mobile Nav Logic
-        function setupMobileNav() {
-            const btn = document.querySelector('.mobile-nav-toggle');
-            const menu = document.getElementById('navMenu');
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('active');
-                btn.innerHTML = menu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-            });
-        }
-
-        // 2. Load Article
         async function loadArticle() {
             const { data: article, error } = await supabaseClient
                 .from('posts')
-                .select(`*, authors(*), categories(*)`)
+                .select(`*, authors(full_name, avatar_url), categories(name)`)
                 .eq('slug', slug)
                 .single();
 
-            const container = document.getElementById('articleContent');
-            
-            if (error || !article) {
-                container.innerHTML = `<div style="text-align:center"><h2>Article Not Found</h2><p>We couldn't find the page you're looking for.</p><a href="/index.html" style="color:var(--accent-color)">Go Home</a></div>`;
+            const container = document.getElementById('mainContent');
+
+            if(error || !article) {
+                container.innerHTML = `<div style="text-align:center"><h1>Article not found</h1><a href="/index.html">Return Home</a></div>`;
                 return;
             }
 
-            // Render content
+            // 1. Render Article
             container.innerHTML = `
                 <header class="article-header">
-                    <span class="category-badge">${article.categories?.name || 'Article'}</span>
+                    <span class="category-label">${article.categories.name}</span>
                     <h1 class="article-title">${article.title}</h1>
                     <div class="article-meta">
-                        <img src="${article.authors?.avatar_url || 'https://via.placeholder.com/30'}" class="author-avatar-small" alt="${article.authors?.full_name}">
-                        <span>By <strong>${article.authors?.full_name}</strong></span>
+                        <div class="author-info">
+                            <img src="${article.authors.avatar_url || 'https://via.placeholder.com/40'}" alt="${article.authors.full_name}">
+                            <span>By <strong>${article.authors.full_name}</strong></span>
+                        </div>
                         <span>&bull;</span>
                         <span>${new Date(article.created_at).toLocaleDateString()}</span>
                     </div>
                 </header>
 
-                <div class="featured-image-wrapper">
+                <div class="featured-image-container">
                     <img src="${article.image_url}" alt="${article.title}" class="featured-image">
                 </div>
 
-                <div class="article-body" id="bodyContent">
+                <div class="article-body" id="articleBody">
                     ${article.content}
-                </div>
-
-                <div class="author-box">
-                    <img src="${article.authors?.avatar_url || 'https://via.placeholder.com/80'}" alt="${article.authors?.full_name}">
-                    <h4>${article.authors?.full_name}</h4>
-                    <p>${article.authors?.bio || ''}</p>
-                    <div style="margin-top: 15px;">
-                        <a href="/index.html?author=${article.authors?.id}" style="color: var(--accent-color); font-weight: bold;">View all posts by author</a>
-                    </div>
                 </div>
             `;
 
+            // 2. Setup TOC & Share
             setupTOC();
-            setupSharing(article);
+            setupShare(article);
         }
 
-        // 3. Setup Table of Contents (TOC)
         function setupTOC() {
-            const body = document.getElementById('bodyContent');
-            const tocContainer = document.getElementById('tocContainer');
-            if(!body || !tocContainer) return;
-
-            const headings = body.querySelectorAll('h2, h3');
-            if (headings.length < 2) return; // Don't show if too few headings
-
-            let html = '<h4>Table of Contents</h4><ul class="toc-list">';
-            headings.forEach((h, i) => {
-                h.id = `section-${i}`;
-                html += `<li><a href="#section-${i}">${h.innerText}</a></li>`;
-            });
-            html += '</ul>';
-            tocContainer.innerHTML = html;
-
-            // Scroll Spy
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const id = entry.target.getAttribute('id');
-                    if (entry.isIntersecting) {
-                        document.querySelectorAll('.toc-list a').forEach(a => a.classList.remove('active'));
-                        document.querySelector(`.toc-list a[href="#${id}"]`)?.classList.add('active');
-                    }
+            const body = document.getElementById('articleBody');
+            const list = document.getElementById('tocList');
+            const headers = body.querySelectorAll('h2');
+            
+            if(headers.length > 0) {
+                headers.forEach((h, i) => {
+                    h.id = `section-${i}`;
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#section-${i}">${h.innerText}</a>`;
+                    list.appendChild(li);
                 });
-            }, { rootMargin: '-100px 0px -60% 0px' });
-            headings.forEach(h => observer.observe(h));
+
+                // Scroll spy
+                window.addEventListener('scroll', () => {
+                    let current = '';
+                    headers.forEach(h => {
+                        const top = h.offsetTop;
+                        if(scrollY >= top - 150) current = h.getAttribute('id');
+                    });
+                    list.querySelectorAll('a').forEach(a => {
+                        a.classList.remove('active');
+                        if(a.getAttribute('href').includes(current) && current !== '') {
+                            a.classList.add('active');
+                        }
+                    });
+                });
+            } else {
+                list.innerHTML = '<li>No sections</li>';
+            }
         }
 
-        // 4. Setup Sharing Links
-        function setupSharing(article) {
+        function setupShare(article) {
             const url = encodeURIComponent(window.location.href);
             const title = encodeURIComponent(article.title);
             
-            document.getElementById('shareFb').href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-            document.getElementById('shareTw').href = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
-            document.getElementById('shareWa').href = `https://api.whatsapp.com/send?text=${title}%20${url}`;
-            document.getElementById('shareEm').href = `mailto:?subject=${title}&body=Check this out: ${url}`;
-        }
-
-        // 5. Setup Menus (Fetch from DB)
-        async function setupMenu() {
-            const { data: cats } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
-            const nav = document.getElementById('navMenu');
-            const footerCats = document.getElementById('footerCats');
+            const fb = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            const tw = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+            const wa = `https://api.whatsapp.com/send?text=${title}%20${url}`;
             
-            let navHtml = `<li><a href="/index.html" class="nav-link">Home</a></li>`;
-            let footHtml = `<li><a href="/index.html">Home</a></li>`;
-
-            if(cats) {
-                cats.forEach(c => {
-                    navHtml += `<li><a href="/index.html?categories=${c.slug}" class="nav-link">${c.name}</a></li>`;
-                    footHtml += `<li><a href="/index.html?categories=${c.slug}">${c.name}</a></li>`;
-                });
-            }
-            navHtml += `<li><a href="/authors.html" class="nav-link">Authors</a></li><li><a href="/contact.html" class="nav-link">Contact</a></li>`;
+            document.getElementById('shareFb').href = fb;
+            document.getElementById('shareTw').href = tw;
+            document.getElementById('shareWa').href = wa;
             
-            if(nav) nav.innerHTML = navHtml;
-            if(footerCats) footerCats.innerHTML = footHtml;
-
-            // Footer Links
-            const { data: links } = await supabaseClient.from('footer_links').select('*');
-            if(links && document.getElementById('footerLinks')) {
-                document.getElementById('footerLinks').innerHTML = links.map(l => `<li><a href="${l.url}">${l.title}</a></li>`).join('');
-            }
+            document.getElementById('mShareFb').href = fb;
+            document.getElementById('mShareTw').href = tw;
+            document.getElementById('mShareWa').href = wa;
         }
-
-        // Reading Progress
-        window.onscroll = function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("readingProgressBar").style.width = scrolled + "%";
-        };
     </script>
 </body>
 </html>
