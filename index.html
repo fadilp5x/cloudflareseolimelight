@@ -4,487 +4,454 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Limelight Online</title>
-    <meta name="description" content="The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.">
+    <meta name="description" content="The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis.">
+    
     <meta property="og:type" content="website">
     <meta property="og:title" content="The Limelight Online">
-    <meta property="og:description" content="The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.">
+    <meta property="og:description" content="The Limelight is a leading online magazine, offering insightful articles, captivating stories, and in-depth analysis.">
     <meta property="og:image" content="https://i.ibb.co/NdsYM9dx/web-logo-123.png">
+    
     <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/WN46nq9w/favicon-32x32.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
     <style>
         :root { 
             --primary-color: #fff; 
-            --secondary-color: #f8f9fa; 
             --accent-color: #8B4513; 
             --text-color: #333; 
-            --light-gray: #e9ecef; 
-            --border-color: #dee2e6; 
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-            --card-hover-shadow: 0 8px 24px rgba(0,0,0,0.12); 
+            --light-gray: #f4f4f4; 
+            --border-color: #e0e0e0; 
+            --card-shadow: 0 4px 10px rgba(0,0,0,0.05); 
             --transition-speed: 0.3s; 
-            --footer-bg: #1a1a1a; 
-            --footer-text: #ccc; 
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Roboto', sans-serif; background-color: var(--primary-color); color: var(--text-color); line-height: 1.6; }
+        body { font-family: 'Roboto', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.6; }
+        
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
+        a { text-decoration: none; color: inherit; transition: color 0.3s; }
         a:hover { color: var(--accent-color); }
-        .loading-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(to right, transparent, var(--accent-color), transparent); background-size: 200% 100%; animation: loading 1.5s infinite linear; z-index: 9999; display: none; }
-        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .header { padding: 15px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 100; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .site-title img { max-height: 65px; width: auto; }
-        .nav-menu { display: flex; list-style: none; align-items: center; }
-        .nav-item { margin: 0; position: relative; padding: 0 15px; border-left: 1px solid var(--border-color); }
-        .nav-item:first-child { border-left: none; }
-        .nav-link { display: flex; align-items: center; font-weight: 500; padding: 10px 0; }
-        .nav-link i { margin-left: 4px; font-size: 12px; }
-        .nav-search .search-container { position: relative; display: flex; align-items: center; height: 40px; }
-        .nav-search .search-icon-btn { cursor: pointer; font-size: 16px; padding: 10px; border-radius: 50%; background-color: transparent; }
-        .nav-search .search-container input { border: 1px solid var(--border-color); outline: none; padding: 10px 15px; border-radius: 20px; font-size: 14px; width: 0; opacity: 0; visibility: hidden; transform: translateX(10px); transition: all var(--transition-speed) ease; }
-        .nav-search .search-container.active input { width: 200px; opacity: 1; visibility: visible; transform: translateX(0); }
-        #searchResultsContainer { display: none; position: absolute; top: calc(100% + 10px); right: 0; width: 350px; background: white; box-shadow: var(--card-shadow); border-radius: 6px; z-index: 1000; max-height: 400px; overflow-y: auto; }
-        .search-result-item { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
-        .search-result-thumbnail { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px; }
-        .mobile-nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; z-index: 1001; }
-        .dropdown { position: absolute; top: 100%; left: 0; background: var(--accent-color); min-width: 220px; box-shadow: var(--card-shadow); border-radius: 6px; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all var(--transition-speed) ease; z-index: 100; }
+
+        /* --- Header & Nav --- */
+        .header { border-bottom: 1px solid var(--border-color); padding: 15px 0; position: sticky; top: 0; background: #fff; z-index: 1000; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .site-title img { height: 50px; width: auto; }
+
+        .nav-menu { display: flex; list-style: none; align-items: center; gap: 20px; }
+        .nav-item { position: relative; }
+        .nav-link { font-weight: 500; font-size: 15px; text-transform: uppercase; padding: 10px 0; display: block; cursor: pointer; }
+        
+        /* Dropdown */
+        .dropdown { 
+            position: absolute; top: 100%; left: 0; background: white; min-width: 200px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 4px; border: 1px solid var(--border-color);
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.2s; z-index: 100;
+        }
         .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-        .dropdown-item { display: block; padding: 12px 20px; color: white; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .featured-carousel { position: relative; margin-bottom: 40px; cursor: grab; }
-        .carousel-container { position: relative; height: 500px; background-color: var(--light-gray); overflow: hidden; }
-        .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease; }
+        .dropdown-item { display: block; padding: 10px 15px; border-bottom: 1px solid #f0f0f0; color: #333; font-size: 14px; text-transform: none; }
+        .dropdown-item:hover { background: #f9f9f9; color: var(--accent-color); }
+
+        /* Search Bar */
+        .search-container { position: relative; display: flex; align-items: center; }
+        .search-icon { font-size: 18px; cursor: pointer; padding: 5px; color: #555; }
+        .search-input { 
+            position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
+            width: 0; opacity: 0; padding: 8px; border: 1px solid var(--border-color); border-radius: 20px;
+            transition: all 0.3s ease; background: white; pointer-events: none;
+        }
+        .search-container.active .search-input { width: 200px; opacity: 1; pointer-events: auto; padding: 8px 15px; }
+        .search-results {
+            position: absolute; top: 40px; right: 0; width: 300px; background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 4px; display: none; z-index: 200;
+            max-height: 400px; overflow-y: auto;
+        }
+        .search-result-item { display: flex; gap: 10px; padding: 10px; border-bottom: 1px solid #eee; }
+        .search-result-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+        .search-result-info h4 { font-size: 14px; margin-bottom: 3px; }
+
+        .mobile-nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
+
+        /* --- Featured Carousel --- */
+        .featured-carousel { position: relative; margin-bottom: 40px; height: 500px; overflow: hidden; background: #333; }
+        .carousel-container { height: 100%; position: relative; }
+        .carousel-slide { 
+            position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; 
+            display: flex; align-items: flex-end; 
+        }
         .carousel-slide.active { opacity: 1; z-index: 1; }
-        .carousel-image { width: 100%; height: 100%; object-fit: cover; }
-        .carousel-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 40px 30px 30px; color: white; display: flex; flex-direction: column; justify-content: flex-end; }
-        .card-meta-info { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; }
-        .category-tag {
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--accent-color);
+        .carousel-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.7; }
+        .carousel-overlay { 
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); 
+            width: 100%; padding: 60px 20px 40px; color: white; position: relative; z-index: 2;
         }
-        .category-tag:hover {
-            text-decoration: underline;
-        }
-        .featured-badge {
-            position: relative;
-            background-color: #07A3CC;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .featured-badge .fa-star { font-size: 10px; }
-        .featured-badge:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            white-space: nowrap;
-            z-index: 10;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.2s;
-        }
-        .carousel-title { font-size: 28px; font-family: 'Playfair Display', serif; margin-bottom: 15px; }
-        .carousel-author-info { display: flex; align-items: center; gap: 12px; }
-        .carousel-author-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.8); }
-        .carousel-author-name { font-size: 15px; font-weight: 500; }
-        .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border-radius: 50%; }
+        .carousel-meta { display: flex; gap: 10px; margin-bottom: 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #ddd; }
+        .carousel-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px; color: white; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .carousel-excerpt { max-width: 800px; margin-bottom: 20px; font-size: 1.1rem; color: #eee; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: background 0.3s; }
+        .carousel-nav:hover { background: rgba(255,255,255,0.4); }
         .carousel-prev { left: 20px; }
         .carousel-next { right: 20px; }
-        .carousel-indicators { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
-        .indicator { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
-        .indicator.active { background-color: white; }
-        .carousel-progress-bar { position: absolute; bottom: 0; left: 0; height: 4px; width: 100%; background-color: rgba(135, 206, 235, 0.2); z-index: 11; }
-        .carousel-progress-bar-inner { height: 100%; width: 0; background-color: #87CEEB; }
-        .carousel-progress-bar-inner.is-animating { transition: width 5s linear; }
-        .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
+        .carousel-indicators { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+        .indicator { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s; }
+        .indicator.active { background: white; transform: scale(1.2); }
+
+        /* --- Articles Grid --- */
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
         .article-card { 
-            background-color: white; 
-            border: 1px solid var(--border-color); 
-            transition: all var(--transition-speed) ease; 
-            animation: fadeIn 0.5s ease forwards; 
-            opacity: 0; 
-            display: flex; 
-            flex-direction: column; 
-            box-shadow: var(--card-shadow); 
-            cursor: pointer;
+            background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+            overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; 
+            box-shadow: var(--card-shadow); display: flex; flex-direction: column;
         }
-        .article-card:hover { 
-            transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow); 
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card-image-wrapper { height: 220px; overflow: hidden; position: relative; }
+        .card-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .article-card:hover .card-image { transform: scale(1.05); }
+        .card-badge { position: absolute; top: 15px; left: 15px; background: var(--accent-color); color: white; padding: 4px 10px; font-size: 11px; font-weight: bold; border-radius: 4px; text-transform: uppercase; }
+
+        .card-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 10px; line-height: 1.3; font-weight: 700; }
+        .card-excerpt { color: #666; font-size: 0.95rem; margin-bottom: 20px; flex: 1; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-author { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #888; border-top: 1px solid #eee; padding-top: 15px; margin-top: auto; }
+        .author-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+
+        /* --- Footer --- */
+        .site-footer { background: #1a1a1a; color: #ccc; padding: 60px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: white; margin-bottom: 15px; }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a:hover { color: white; text-decoration: underline; }
+        .footer-bottom { text-align: center; border-top: 1px solid #333; padding-top: 20px; font-size: 0.9rem; }
+
+        /* --- Mobile Responsive --- */
+        @media (max-width: 992px) {
+            .mobile-nav-toggle { display: block; }
+            .nav-menu { 
+                position: absolute; top: 100%; left: 0; width: 100%; background: white; 
+                flex-direction: column; align-items: flex-start; padding: 0; 
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+                display: none; border-top: 1px solid #eee;
+            }
+            .nav-menu.active { display: flex; }
+            .nav-item { width: 100%; border-bottom: 1px solid #f0f0f0; }
+            .nav-link { padding: 15px 20px; width: 100%; display: flex; justify-content: space-between; }
+            
+            /* Mobile Dropdown */
+            .dropdown { position: static; box-shadow: none; border: none; background: #f9f9f9; padding-left: 20px; display: none; opacity: 1; visibility: visible; transform: none; min-width: 100%; }
+            .nav-item.mobile-open .dropdown { display: block; }
+            .nav-item i { transition: transform 0.3s; }
+            .nav-item.mobile-open > .nav-link i { transform: rotate(180deg); }
+
+            .featured-carousel { height: 400px; }
+            .carousel-title { font-size: 1.8rem; }
+            .search-container { display: none; } /* Hide desktop search on mobile, usually handled by a separate mobile input if needed */
         }
-        .article-card:hover .card-image-wrapper img {
-            transform: scale(1.05);
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .card-image-wrapper {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-        }
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-        .card-content { 
-            padding: 20px; 
-            flex-grow: 1; 
-            display: flex; 
-            flex-direction: column; 
-        }
-        .card-title { 
-            font-family: 'Playfair Display', serif;
-            font-size: 20px; 
-            font-weight: 700; 
-            margin: 10px 0;
-        }
-        .card-author { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            font-size: 14px; 
-            color: #555; 
-            margin-top: auto;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-        }
-        .author-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
-        .card-excerpt {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #666;
-            position: relative;
-            max-height: 80px;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-        .card-excerpt::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30px; 
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
-        }
-        .load-more-container { text-align: center; margin: 40px 0; }
-        .load-more-btn { display: inline-block; padding: 12px 30px; background-color: var(--accent-color); color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
-        .load-more-btn:hover { background-color: #6a340d; }
-        .page-title { text-align: center; margin-bottom: 2rem; font-family: 'Playfair Display', serif; font-size: 2rem; }
-        .site-footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0 0; font-size: 15px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; padding-bottom: 40px; border-bottom: 1px solid #444; }
-        .footer-about .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: white; margin-bottom: 15px; }
-        .footer-links h4 { font-size: 18px; color: white; margin-bottom: 20px; }
-        .footer-links ul { list-style: none; }
-        .footer-links ul li { margin-bottom: 12px; }
-        .footer-links ul a { color: white; } /* Changed to white */
-        #footerSubscribeForm { display: flex; }
-        #footerSubscribeForm input { flex-grow: 1; border: none; padding: 12px; background-color: #333; color: white; }
-        #footerSubscribeForm button { border: none; background-color: var(--accent-color); color: white; padding: 0 20px; cursor: pointer; transition: background-color 0.3s; }
-        #footerSubscribeForm button:hover { background-color: #6a340d; }
-        .footer-bottom { padding: 20px 0; text-align: center; font-size: 14px; }
-        @media (max-width: 992px) { .articles-grid, .footer-grid { grid-template-columns: 1fr 1fr; } .mobile-nav-toggle { display: block; } .nav-container { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } .nav-container.active { display: block; } .nav-menu { display: none; flex-direction: column; align-items: flex-start; padding: 10px 0; } .nav-container.active .nav-menu { display: flex; } .nav-item { margin: 0; width: 100%; border-left: none; border-bottom: 1px solid var(--border-color); } .nav-link { padding: 15px 20px; width: 100%; } .dropdown { position: static; box-shadow: none; background: #f9f9f9; padding-left: 20px; } .dropdown-item { color: var(--text-color); } }
-        @media (max-width: 768px) { .site-title img { max-height: 50px; } .carousel-container { height: 350px; } .carousel-title { font-size: 22px; } .articles-grid, .footer-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="loading-bar" id="loadingBar"></div>
-    
     <header class="header">
         <div class="container header-content">
-            <div class="site-title"><a href="/index.html"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight Online Logo"></a></div>
-            <button class="mobile-nav-toggle" aria-label="Open navigation menu"><i class="fas fa-bars"></i></button>
-            <div class="nav-container" id="navContainer"><ul class="nav-menu" id="categoryNav"></ul></div>
+            <a href="/index.html" class="site-title"><img src="https://i.ibb.co/NdsYM9dx/web-logo-123.png" alt="The Limelight"></a>
+            
+            <div class="mobile-controls" style="display: flex; gap: 15px; align-items: center;">
+                 <!-- Mobile Search Trigger could go here -->
+                <button class="mobile-nav-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+
+            <ul class="nav-menu" id="navMenu">
+                <!-- Nav items injected by JS -->
+                <li class="nav-item">
+                    <div class="search-container" id="searchContainer">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search articles...">
+                        <i class="fas fa-search search-icon" id="searchIcon"></i>
+                        <div class="search-results" id="searchResults"></div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </header>
 
     <main class="container">
+        <!-- Slideshow for Featured Posts -->
         <section class="featured-carousel" id="featuredCarousel">
-            <div class="carousel-container" id="carouselContainer"></div>
+            <div class="carousel-container" id="carouselContainer">
+                <!-- Slides injected here -->
+            </div>
             <button class="carousel-nav carousel-prev"><i class="fas fa-chevron-left"></i></button>
             <button class="carousel-nav carousel-next"><i class="fas fa-chevron-right"></i></button>
             <div class="carousel-indicators" id="carouselIndicators"></div>
-            <div class="carousel-progress-bar"><div id="progressBarInner" class="carousel-progress-bar-inner"></div></div>
         </section>
 
-        <div id="pageTitleContainer"></div>
-
-        <section class="articles-container">
-            <div class="articles-grid" id="articlesGrid"></div>
-            <div class="load-more-container" id="loadMoreContainer" style="display: none;"><button class="load-more-btn" id="loadMoreBtn">Load More Articles</button></div>
-        </section>
+        <h2 style="font-family: 'Playfair Display', serif; text-align: center; margin-bottom: 40px; font-size: 2.2rem; color: var(--accent-color);">Latest Articles</h2>
+        
+        <div class="articles-grid" id="articlesGrid"></div>
+        
+        <div style="text-align: center; margin-bottom: 60px; display: none;" id="loadMoreContainer">
+            <button id="loadMoreBtn" style="padding: 12px 40px; background: var(--accent-color); color: white; border: none; font-size: 1rem; cursor: pointer; border-radius: 30px; font-weight: 500; transition: background 0.3s;">Load More Articles</button>
+        </div>
     </main>
 
     <footer class="site-footer">
         <div class="container footer-grid">
-            <div class="footer-about"><h3 class="footer-logo">THE LIMELIGHT</h3><p>Insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p></div>
-            <div class="footer-links"><h4>Categories</h4><ul id="footerCategoryNav"></ul></div>
-            <div class="footer-links"><h4>Help & Support</h4><ul id="footerSupportNav"></ul></div>
-            <div class="footer-subscribe"><h4>Email Newsletter</h4><p>Subscribe for notifications on exclusive posts.</p><form id="footerSubscribeForm"><input type="email" placeholder="Your Email" required><button type="submit">SUBSCRIBE</button></form></div>
+            <div>
+                <h3 class="footer-logo">THE LIMELIGHT</h3>
+                <p>Insightful articles, captivating stories, and in-depth analysis on a variety of topics that matter.</p>
+            </div>
+            <div>
+                <h4 style="color:white; margin-bottom:20px; font-size: 1.1rem;">Categories</h4>
+                <div class="footer-links"><ul id="footerCategories"></ul></div>
+            </div>
+            <div>
+                <h4 style="color:white; margin-bottom:20px; font-size: 1.1rem;">Support</h4>
+                <div class="footer-links"><ul id="footerSupport"></ul></div>
+            </div>
         </div>
-        <div class="footer-bottom"><p>Copyright © 2025. The Limelight Online. All rights reserved.</p></div>
+        <div class="footer-bottom"><p>&copy; 2025 The Limelight Online. All rights reserved.</p></div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = 'https://whklfmxjknhucguzvpob.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa2xmbXhqa25odWNndXp2cG9iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyOTY5MjIsImV4cCI6MjA3Mzg3MjkyMn0.5Y2an8aYFc5wY64VmRJmnblYBPwLLs_CR9UXJ4XuzjM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const POSTS_PER_PAGE = 12;
-        let currentPage = 1, totalPosts = 0, currentSlide = 0, featuredPosts = [], isCarouselTransitioning = false, carouselInterval;
-        const articlesGrid = document.getElementById('articlesGrid'), loadingBar = document.getElementById('loadingBar'), loadMoreContainer = document.getElementById('loadMoreContainer'), loadMoreBtn = document.getElementById('loadMoreBtn');
+        let currentSlide = 0;
+        let slideInterval;
+        let currentPage = 1;
+        const POSTS_PER_PAGE = 9;
 
-        function showLoading() { loadingBar.style.display = 'block'; }
-        function hideLoading() { loadingBar.style.display = 'none'; }
-        const getUrlParams = () => new URLSearchParams(window.location.search);
+        // Mobile Nav Toggle
+        document.querySelector('.mobile-nav-toggle').addEventListener('click', () => {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
 
-        async function fetchCategoriesAndLinks() {
-            const { data: categories, error } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
-            if (error) { console.error('Error fetching categories:', error); return; }
-            const navItems = await Promise.all(categories.map(async c => ({ c, subs: (await supabaseClient.from('categories').select('*').eq('parent_id', c.id).order('name')).data || [] })));
-            
-            const nav = document.getElementById('categoryNav'), footerNav = document.getElementById('footerCategoryNav');
-            let navHtml = `<li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>`, footerNavHtml = `<li><a href="/index.html">Home</a></li>`;
-            navItems.forEach(item => {
-                navHtml += `<li class="nav-item"><a href="/index.html?categories=${item.c.slug}" class="nav-link">${item.c.name}${item.subs.length > 0 ? ' <i class="fas fa-chevron-down"></i>' : ''}</a>${item.subs.length > 0 ? `<div class="dropdown">${item.subs.map(s => `<a href="/index.html?categories=${s.slug}" class="dropdown-item">${s.name}</a>`).join('')}</div>` : ''}</li>`;
-                footerNavHtml += `<li><a href="/index.html?categories=${item.c.slug}">${item.c.name}</a></li>`;
-            });
-            navHtml += `<li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li><li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li><li class="nav-item nav-search"><div class="search-container" id="searchContainer"><i class="fas fa-search search-icon-btn"></i><input type="text" id="searchInput" placeholder="Search..."></div><div id="searchResultsContainer"></div></li>`;
-            nav.innerHTML = navHtml;
-            footerNav.innerHTML = footerNavHtml;
+        async function init() {
+            await fetchNav();
+            await fetchFeatured();
+            await fetchPosts();
             setupSearch();
+        }
+
+        // 1. Fetch Nav with Submenus
+        async function fetchNav() {
+            // Fetch top level
+            const { data: parents } = await supabaseClient.from('categories').select('*').is('parent_id', null).order('name');
+            const navMenu = document.getElementById('navMenu');
+            const searchLi = navMenu.querySelector('.nav-item:last-child'); // Keep search at end
             
-            const { data: links } = await supabaseClient.from('footer_links').select('title, url').order('title');
-            if(links) document.getElementById('footerSupportNav').innerHTML = links.map(l => `<li><a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.title}</a></li>`).join('');
-        }
+            let navHtml = `<li class="nav-item"><a href="/index.html" class="nav-link">Home</a></li>`;
+            let footerHtml = '';
 
-        async function fetchFeaturedPosts() {
-            const { data, error } = await supabaseClient.from('posts').select(`*, categories(name, slug), authors(full_name, avatar_url)`).eq('is_featured', true).order('created_at', { ascending: false }).limit(5);
-            if (error) { console.error('Error fetching featured posts:', error); return; }
-            featuredPosts = data;
-            renderCarousel();
-            if (featuredPosts.length > 1) startCarouselInterval();
-        }
-
-        async function fetchPosts(loadMore = false) {
-            if (!loadMore) { currentPage = 1; articlesGrid.innerHTML = ''; }
-            showLoading();
-            const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
-            let query = supabaseClient.from('posts').select(`*, categories(name, slug), authors(id, full_name, avatar_url)`, { count: 'exact' });
-            if (categorySlug) {
-                const { data: categoryData } = await supabaseClient.from('categories').select('id').eq('slug', categorySlug).single();
-                if (categoryData) query = query.eq('category_id', categoryData.id);
+            if (parents) {
+                for (const p of parents) {
+                    // Fetch children
+                    const { data: children } = await supabaseClient.from('categories').select('*').eq('parent_id', p.id).order('name');
+                    
+                    if (children && children.length > 0) {
+                        navHtml += `
+                            <li class="nav-item has-dropdown">
+                                <span class="nav-link">${p.name} <i class="fas fa-chevron-down" style="font-size:10px; margin-left:5px;"></i></span>
+                                <div class="dropdown">
+                                    <a href="/index.html?categories=${p.slug}" class="dropdown-item">All ${p.name}</a>
+                                    ${children.map(c => `<a href="/index.html?categories=${c.slug}" class="dropdown-item">${c.name}</a>`).join('')}
+                                </div>
+                            </li>`;
+                    } else {
+                        navHtml += `<li class="nav-item"><a href="/index.html?categories=${p.slug}" class="nav-link">${p.name}</a></li>`;
+                    }
+                    footerHtml += `<li><a href="/index.html?categories=${p.slug}">${p.name}</a></li>`;
+                }
             }
-            if (authorId) query = query.eq('author_id', authorId);
             
-            const { data, error, count } = await query.order('order_index', { ascending: true, nullsFirst: false }).range((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE - 1);
-            if (error) { console.error('Error fetching posts:', error); hideLoading(); return; }
+            navHtml += `<li class="nav-item"><a href="/authors.html" class="nav-link">Authors</a></li>
+                        <li class="nav-item"><a href="/contact.html" class="nav-link">Contact</a></li>`;
             
-            totalPosts = count;
-            renderPosts(data, loadMore);
-            updateLoadMoreButton();
-            hideLoading();
+            // Insert before search
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = navHtml;
+            while(tempDiv.firstChild) {
+                navMenu.insertBefore(tempDiv.firstChild, searchLi);
+            }
+            
+            document.getElementById('footerCategories').innerHTML = footerHtml;
+
+            // Mobile Dropdown Logic
+            document.querySelectorAll('.has-dropdown > .nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if(window.innerWidth <= 992) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('mobile-open');
+                    } else {
+                         // On desktop, clicking parent goes to parent category
+                         const parentSlug = link.innerText.trim().toLowerCase(); // rough approx or store slug in dataset
+                         // window.location.href = ... 
+                    }
+                });
+            });
         }
 
-        function renderCarousel() {
-            if (!featuredPosts || featuredPosts.length === 0) return;
-            document.getElementById('carouselContainer').innerHTML = featuredPosts.map(post => {
-                return `
-                <div class="carousel-slide">
-                    <a href="/article/${post.slug}">
-                        <img src="${post.image_url}" alt="${post.title}" class="carousel-image">
-                    </a>
-                    <div class="carousel-overlay">
-                        <h2 class="carousel-title"><a href="/article/${post.slug}" style="color: white;">${post.title}</a></h2>
-                        <div class="carousel-author-info">
-                            <img src="${post.authors.avatar_url || 'https://via.placeholder.com/35'}" alt="${post.authors.full_name}" class="carousel-author-avatar">
-                            <span class="carousel-author-name">${post.authors.full_name}</span>
+        // 2. Fetch Featured (Slideshow)
+        async function fetchFeatured() {
+            const { data: featured } = await supabaseClient.from('posts')
+                .select('*, authors(full_name), categories(name)')
+                .eq('is_featured', true)
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            const container = document.getElementById('carouselContainer');
+            const indicators = document.getElementById('carouselIndicators');
+
+            if (featured && featured.length > 0) {
+                container.innerHTML = featured.map((p, i) => `
+                    <div class="carousel-slide ${i === 0 ? 'active' : ''}">
+                        <img src="${p.image_url}" class="carousel-image" alt="${p.title}">
+                        <div class="carousel-overlay">
+                            <div class="carousel-meta">
+                                <span>${p.categories.name}</span>
+                                <span>&bull;</span>
+                                <span>${new Date(p.created_at).toLocaleDateString()}</span>
+                            </div>
+                            <h2 class="carousel-title"><a href="/article/${p.slug}" style="color:white">${p.title}</a></h2>
+                            <div class="carousel-excerpt">${p.excerpt || ''}</div>
                         </div>
                     </div>
-                </div>`;
-            }).join('');
+                `).join('');
 
-            if (featuredPosts.length > 1) {
-                document.getElementById('carouselIndicators').innerHTML = featuredPosts.map((_, i) => `<div class="indicator" data-slide-to="${i}"></div>`).join('');
-                document.querySelector('.carousel-slide').classList.add('active');
-                document.querySelector('.indicator').classList.add('active');
-            } else { 
-                document.querySelector('.carousel-slide').classList.add('active'); 
-            }
-        }
-
-        function renderPosts(posts, append) {
-            if (!append && articlesGrid) articlesGrid.innerHTML = '';
-            posts.forEach((post, i) => {
-                const card = document.createElement('div');
-                card.className = 'article-card';
-                card.style.animationDelay = `${i * 0.1}s`;
+                indicators.innerHTML = featured.map((_, i) => `<div class="indicator ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>`).join('');
                 
-                const featuredBadgeHtml = post.is_featured ? `<span class="featured-badge" data-tooltip="An Editorial Selection from The Limelight Magazine"><i class="fas fa-star"></i> Featured</span>` : '';
-
-                card.innerHTML = `
-                    <a href="/article/${post.slug}" class="card-image-wrapper">
-                        <img src="${post.image_url || 'https://via.placeholder.com/400x200'}" alt="${post.title}" class="card-image" loading="lazy">
-                    </a>
-                    <div class="card-content">
-                        <div class="card-meta-info">
-                            <a href="/index.html?categories=${post.categories.slug}" class="category-tag">${post.categories.name}</a>
-                            ${featuredBadgeHtml}
-                        </div>
-                        <h3 class="card-title"><a href="/article/${post.slug}">${post.title}</a></h3>
-                        <div class="card-excerpt">${post.excerpt || ''}</div>
-                        <a href="/index.html?author=${post.authors.id}" class="card-author">
-                            <img src="${post.authors.avatar_url || 'https://via.placeholder.com/30'}" alt="${post.authors.full_name}" class="author-avatar">
-                            <span>${post.authors.full_name}</span>
-                        </a>
-                    </div>`;
-
-                // Add event listeners to stop propagation on internal links
-                card.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', (e) => e.stopPropagation());
-                });
-
-                // Add a single click listener to the card itself
-                card.addEventListener('click', () => {
-                    window.location.href = `/article/${post.slug}`;
-                });
+                // Start Timer
+                startSlideTimer();
                 
-                if (articlesGrid) articlesGrid.appendChild(card);
-            });
-        }
-
-        function updateLoadMoreButton() {
-            if (loadMoreContainer) {
-                loadMoreContainer.style.display = (currentPage * POSTS_PER_PAGE < totalPosts) ? 'block' : 'none';
-            }
-        }
-
-        async function initPage() {
-            showLoading();
-            setupMobileNav();
-            const params = getUrlParams(), categorySlug = params.get('categories'), authorId = params.get('author');
-            
-            if (document.getElementById('pageTitleContainer')) {
-                document.getElementById('pageTitleContainer').innerHTML = '';
-            }
-            if (featuredCarousel) {
-                featuredCarousel.style.display = 'block';
-            }
-
-            await fetchCategoriesAndLinks();
-
-            if (categorySlug || authorId) {
-                if (featuredCarousel) featuredCarousel.style.display = 'none';
-                let title = '';
-                if(categorySlug) {
-                    const {data} = await supabaseClient.from('categories').select('name').eq('slug', categorySlug).single();
-                    title = data?.name || 'Category';
-                } else {
-                    const {data} = await supabaseClient.from('authors').select('full_name').eq('id', authorId).single();
-                    title = `Posts by ${data?.full_name || 'Author'}`;
-                }
-                if (document.getElementById('pageTitleContainer')) {
-                    document.getElementById('pageTitleContainer').innerHTML = `<h2 class="page-title">${title}</h2>`;
-                }
+                // Event Listeners
+                document.querySelector('.carousel-prev').addEventListener('click', () => changeSlide(-1));
+                document.querySelector('.carousel-next').addEventListener('click', () => changeSlide(1));
             } else {
-                await fetchFeaturedPosts();
+                document.getElementById('featuredCarousel').style.display = 'none';
             }
-            await fetchPosts();
-            hideLoading();
         }
 
-        function showSlide(nextIndex, isManual = false) {
-            if (isCarouselTransitioning || featuredPosts.length <= 1) return;
-            isCarouselTransitioning = true;
-            const slides = document.querySelectorAll('.carousel-slide'), indicators = document.querySelectorAll('.indicator');
-            if (nextIndex >= slides.length) nextIndex = 0;
-            if (nextIndex < 0) nextIndex = slides.length - 1;
+        function changeSlide(dir) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.indicator');
             slides[currentSlide].classList.remove('active');
-            indicators[currentSlide]?.classList.remove('active');
-            slides[nextIndex].classList.add('active');
-            indicators[nextIndex]?.classList.add('active');
-            currentSlide = nextIndex;
-            setTimeout(() => { isCarouselTransitioning = false; }, 200);
-            if (isManual) startCarouselInterval();
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (currentSlide + dir + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            resetTimer();
         }
 
-        function restartProgressBar() {
-            if (!progressBarInner) return;
-            progressBarInner.classList.remove('is-animating');
-            void progressBarInner.offsetWidth;
-            progressBarInner.classList.add('is-animating');
-            progressBarInner.style.width = '100%';
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.indicator');
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = index;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            resetTimer();
         }
-        function startCarouselInterval() {
-            stopCarouselInterval();
-            if (featuredPosts.length > 1) {
-                if(progressBarInner) progressBarInner.style.width = '0%';
-                setTimeout(() => restartProgressBar(), 50);
-                carouselInterval = setInterval(() => { showSlide(currentSlide + 1); restartProgressBar(); }, 5000);
+
+        function startSlideTimer() { slideInterval = setInterval(() => changeSlide(1), 5000); }
+        function resetTimer() { clearInterval(slideInterval); startSlideTimer(); }
+
+        // 3. Fetch Latest Posts Grid
+        async function fetchPosts() {
+            const { data: posts, count } = await supabaseClient.from('posts')
+                .select('*, authors(full_name, avatar_url), categories(name)', { count: 'exact' })
+                .order('created_at', { ascending: false })
+                .range((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE - 1);
+
+            const grid = document.getElementById('articlesGrid');
+            if (currentPage === 1) grid.innerHTML = '';
+
+            if (posts) {
+                posts.forEach(p => {
+                    grid.innerHTML += `
+                        <div class="article-card">
+                            <a href="/article/${p.slug}" class="card-image-wrapper">
+                                <span class="card-badge">${p.categories.name}</span>
+                                <img src="${p.image_url}" class="card-image" loading="lazy" alt="${p.title}">
+                            </a>
+                            <div class="card-content">
+                                <h3 class="card-title"><a href="/article/${p.slug}">${p.title}</a></h3>
+                                <div class="card-excerpt">${p.excerpt || ''}</div>
+                                <div class="card-author">
+                                    <img src="${p.authors.avatar_url || 'https://via.placeholder.com/30'}" class="author-avatar">
+                                    <span>${p.authors.full_name}</span>
+                                    <span style="margin-left:auto;">${new Date(p.created_at).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Load More Logic
+                /* if (count > currentPage * POSTS_PER_PAGE) {
+                     document.getElementById('loadMoreContainer').style.display = 'block';
+                 } else {
+                     document.getElementById('loadMoreContainer').style.display = 'none';
+                 }*/
             }
         }
-        function stopCarouselInterval() { clearInterval(carouselInterval); }
 
-        let searchTimeout;
+        // 4. Search Functionality
         function setupSearch() {
-            const searchContainer = document.getElementById('searchContainer'), searchIcon = searchContainer.querySelector('.search-icon-btn'), searchInput = searchContainer.querySelector('#searchInput'), resultsContainer = document.getElementById('searchResultsContainer');
-            if (!searchContainer) return;
-            searchIcon.addEventListener('click', (e) => { e.stopPropagation(); searchContainer.classList.toggle('active'); if (searchContainer.classList.contains('active')) searchInput.focus(); });
-            searchInput.addEventListener('input', () => {
-                clearTimeout(searchTimeout);
-                const term = searchInput.value;
-                if (term.length < 2) { resultsContainer.style.display = 'none'; return; }
-                resultsContainer.style.display = 'block';
-                resultsContainer.innerHTML = '<p style="text-align: center; padding: 20px;">Searching...</p>';
-                searchTimeout = setTimeout(async () => {
-                    const { data } = await supabaseClient.from('posts').select('title, slug, image_url').ilike('title', `%${term}%`).limit(5);
-                    if (data && data.length > 0) { resultsContainer.innerHTML = data.map(p => `<a href="/article/${p.slug}" class="search-result-item"><img src="${p.image_url || 'https://via.placeholder.com/60'}" class="search-result-thumbnail"><div style="font-weight: 500;">${p.title}</div></a>`).join(''); } 
-                    else { resultsContainer.innerHTML = '<p style="padding: 20px;">No results found.</p>'; }
+            const container = document.getElementById('searchContainer');
+            const icon = document.getElementById('searchIcon');
+            const input = document.getElementById('searchInput');
+            const results = document.getElementById('searchResults');
+            let debounceTimer;
+
+            icon.addEventListener('click', () => {
+                container.classList.toggle('active');
+                if(container.classList.contains('active')) input.focus();
+            });
+
+            input.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                const query = e.target.value;
+                
+                if(query.length < 2) {
+                    results.style.display = 'none';
+                    return;
+                }
+
+                debounceTimer = setTimeout(async () => {
+                    const { data } = await supabaseClient.from('posts').select('title, slug, image_url').ilike('title', `%${query}%`).limit(5);
+                    
+                    if(data && data.length) {
+                        results.innerHTML = data.map(p => `
+                            <a href="/article/${p.slug}" class="search-result-item">
+                                <img src="${p.image_url}">
+                                <div class="search-result-info">
+                                    <h4>${p.title}</h4>
+                                </div>
+                            </a>
+                        `).join('');
+                        results.style.display = 'block';
+                    } else {
+                        results.innerHTML = '<div style="padding:10px;">No results found.</div>';
+                        results.style.display = 'block';
+                    }
                 }, 300);
             });
-            document.addEventListener('click', (e) => { if (!searchContainer.contains(e.target)) { searchContainer.classList.remove('active'); if (resultsContainer) resultsContainer.style.display = 'none'; } });
-        }
-        
-        function setupMobileNav() { 
-            const toggle = document.querySelector('.mobile-nav-toggle');
-            if (toggle) {
-                toggle.addEventListener('click', () => document.getElementById('navContainer').classList.toggle('active')); 
-            }
+            
+            // Close search when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!container.contains(e.target)) {
+                    container.classList.remove('active');
+                    results.style.display = 'none';
+                }
+            });
         }
 
-        document.addEventListener('DOMContentLoaded', initPage);
-        if (featuredCarousel) {
-            featuredCarousel.addEventListener('click', (e) => {
-                if (e.target.closest('.carousel-prev')) showSlide(currentSlide - 1, true);
-                if (e.target.closest('.carousel-next')) showSlide(currentSlide + 1, true);
-                if (e.target.matches('.indicator')) showSlide(parseInt(e.target.dataset.slideTo), true);
-            });
-        }
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => { 
-                currentPage++; 
-                fetchPosts(true); 
-            });
-        }
+        init();
     </script>
 </body>
 </html>
